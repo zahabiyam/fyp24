@@ -96,18 +96,6 @@ body {
     justify-content: center;
     align-items: center;
 }
-.productbanner {
-    background-image: url('./images/banner 1.png');
-    background-size: cover;
-    background-position: center;
-    height: 500px;
-    width: 100%;
-    text-align: center;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 .about-section {
     background-image: url('./images/about.jpg');
     background-size: cover;
@@ -332,6 +320,18 @@ body {
     margin-top: -323px;
     z-index: 0;
     position: relative;
+}
+.productbanner {
+    background-image: url('./images/product.png');
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .product-card {
     background-color: #fff;
