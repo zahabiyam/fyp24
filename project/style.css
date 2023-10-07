@@ -253,20 +253,20 @@ body {
     text-align: left;
 }
 
-.form-group {
+.contact-form .form-group {
     margin-bottom: 20px;
 }
 
-.form-group label {
+.contact-form .form-group label {
     display: block;
     font-size: 18px;
     margin-bottom: 5px;
     color: #555;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group textarea {
+.contact-form .form-group input[type="text"],
+.contact-form .form-group input[type="email"],
+.contact-form .form-group textarea {
     width: 90%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -276,18 +276,18 @@ body {
     transition: border-color 0.3s, background-color 0.3s;
 }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="email"]:focus,
-.form-group textarea:focus {
+.contact-form .form-group input[type="text"]:focus,
+.contact-form .form-group input[type="email"]:focus,
+.contact-form.form-group textarea:focus {
     border-color: #1A5D1A;
     background-color: #fff;
 }
 
-.form-group textarea {
+.contact-form .form-group textarea {
     resize: vertical;
 }
 
-.submit-button {
+.contact-form .submit-button {
     background-color: #1A5D1A;
     color: #fff;
     border: none;
@@ -298,7 +298,7 @@ body {
     transition: background-color 0.3s;
 }
 
-.submit-button:hover {
+.contact-form .submit-button:hover {
     background-color: #0c2e0c;
 }
 .copyright{
@@ -359,4 +359,108 @@ body {
     color: #e74c3c;
     font-weight: bold;
     margin-top: 10px;
+}
+#no-padding{
+    padding: 0;
+    max-width: initial;
+}
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+.login-form {
+    background-image: url('./images/login new.png');
+    background-size: cover;
+    background-position: center bottom; 
+    padding: 20px;
+    flex:8;
+}
+
+.login-form h2 {
+    font-size: 55px;
+    margin-bottom: -41px;
+    color: #07420D;
+    font-weight: bolder;
+}
+.login-form h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #000;
+    font-weight: 300;
+    text-align: center;
+}
+.login-form .form-group {
+    margin: 0 auto;
+    width: 80%;
+}
+.login-form .form-group label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.login-form .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    background: #EDF5F3;
+    height: 37px;
+}
+.login-form .center-btn{
+    text-align: center;
+}
+.login-form button {
+    background-color: #1A5D1A;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 85px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-form button:hover {
+    background-color: #145314;
+}
+
+.info {
+    flex: 4;
+    padding: 20px;
+    background-image: url('./images/productbg.png'); 
+    background-size: cover;
+    background-position: center;
+    text-align: center; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.info h2 {
+    font-size: 55px;
+    margin-bottom: 20px;
+    color: #fff;
+    font-weight: bolder;
+}
+
+.info p {
+    font-size: 25px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.info .signup-button {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 85px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
