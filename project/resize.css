@@ -41,7 +41,9 @@
         margin: 10px 0; 
         float: none;
     }
-
+    .about-section{
+        padding: 0;
+    }
     .search-bar {
         width: 100%;
     }
@@ -50,5 +52,16 @@
     }
     .value-box{
         width: 90%;
+    }
+    .services{
+        display: block;
+        padding: 0;
+    }
+    .service{
+        width: auto;
+    }
+    .categories{
+        display: block;
+        padding: 0;
     }
 }
