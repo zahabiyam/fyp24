@@ -25,4 +25,7 @@
     .login-container{
         display: block;
     }
+    .product-card{
+        width: auto;
+    }
 }
