@@ -5,19 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer's Friend</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="resize.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css') }}/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css') }}/resize.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./favicon//favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon') }}/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon') }}/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon') }}/favicon-16x16.png">
+    <link rel="manifest" href="{{ url_for('static', filename='favicon') }}/site.webmanifest">
+    <link rel="mask-icon" href="{{ url_for('static', filename='favicon') }}/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <div class="logo">
-        <img src="./images/logo.png" alt="Your Logo">
+        <img src="{{ url_for('static', filename='images') }}/logo.png" alt="Your Logo">
     </div>
 </head>
 
@@ -47,13 +47,13 @@
     </div>
     <div class="container">
         <div class="product-card">
-            <img class="product-image" src="./images/fruits.jpg" alt="Product 1">
+            <img class="product-image" src="{{ url_for('static', filename='images') }}/fruits.jpg" alt="Product 1">
             <h2 class="product-title">Product 1</h2>
             <p class="product-description">Description of Product 1.</p>
             <p class="product-price">$19.99</p>
         </div>
         <div class="product-card">
-            <img class="product-image" src="./images/vegetable.jpg" alt="Product 2">
+            <img class="product-image" src="{{ url_for('static', filename='images') }}/vegetable.jpg" alt="Product 2">
             <h2 class="product-title">Product 2</h2>
             <p class="product-description">Description of Product 2.</p>
             <p class="product-price">$24.99</p>
