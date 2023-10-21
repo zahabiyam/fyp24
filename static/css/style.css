@@ -477,3 +477,27 @@ body {
     background: #EDF5F3;
     height: 37px;
 }
+.add-to-cart {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background-color: #1A5D1A;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 999; /* Ensure it's above other page content */
+}
+
+.add-to-cart button {
+    background-color: #fff;
+    color: #1A5D1A;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.add-to-cart button:hover {
+    background-color: #1A5D1A;
+    color: #fff;
+}
