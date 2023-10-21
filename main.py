@@ -25,5 +25,9 @@ def signup():
 def products():
     return render_template('product.html')
 
+@app.route("/farmer profile", methods=['GET', 'POST'])
+def products():
+    return render_template('farmer profile.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
