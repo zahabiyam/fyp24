@@ -24,8 +24,8 @@
 <body>
     <div class="navbar">
         <div class="list">
-        <a href="#">Home</a>
-        <a href="#">Products</a>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('products') }}">Products</a>
         <a href="#">About Us</a>
         <a href="#">Contact</a>
         </div>
@@ -51,15 +51,17 @@
         </div>
         <div class="product-card">
             <img class="product-image" src="{{ url_for('static', filename='images') }}/mangoes.jpg" alt="Product 1">
-            <h2 class="product-title">Product 1</h2>
-            <p class="product-description">Description of Product 1.</p>
+            <h2 class="product-title">Mangoes</h2>
+            <p class="product-description">Enjoy the sweet, tropical delight of our fresh mangoes. Bursting with juicy goodness, each bite takes you on a journey to sun-kissed orchards.</p>
             <p class="product-price">$19.99</p>
+            <button id="add-to-cart">Add to Cart</button>
         </div>
         <div class="product-card">
             <img class="product-image" src="{{ url_for('static', filename='images') }}/carrot.jpg" alt="Product 2">
-            <h2 class="product-title">Product 2</h2>
-            <p class="product-description">Description of Product 2.</p>
+            <h2 class="product-title">Carrot</h2>
+            <p class="product-description">Crisp and versatile, our carrots are nature's snack. From salads to smoothies, these vibrant veggies add a healthy crunch to your meals.</p>
             <p class="product-price">$24.99</p>
+            <button id="add-to-cart">Add to Cart</button>
         </div>
     </div>
 </body>

@@ -360,6 +360,28 @@ body {
     font-weight: bold;
     margin-top: 10px;
 }
+.product-description{
+    text-align: center;
+}
+.product-price{
+    text-align: center;
+}
+button#add-to-cart {
+    background-color: #fff;
+    color: #1A5D1A;
+    padding: 10px 20px;
+    border: 2px solid #1A5D1A;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 15px;
+}
+
+button#add-to-cart:hover {
+    background-color: #1A5D1A;
+    color: #fff;
+}
 #no-padding{
     padding: 0;
     max-width: initial;
