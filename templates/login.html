@@ -24,8 +24,8 @@
 <body>
     <div class="navbar">
         <div class="list">
-        <a href="#">Home</a>
-        <a href="#">Products</a>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('products') }}">Products</a>
         <a href="#">About Us</a>
         <a href="#">Contact</a>
         </div>
@@ -34,16 +34,19 @@
         </div>
         <div class="profile-icons">
             <div class="profile-item">
-                <a href="{{ url_for('signup') }}"><i class="fas fa-user-circle"></i>
-                <span>Want to become a buyer?</span></a>
-            </div>
-            <div class="profile-item">
-              <a href="#"><i class="fas fa-store"></i>
-                <span>Want to become a seller?</span></a>
+                <a href="#"><i class="fas fa-user-circle"></i>
+                    <span>Profile</span></a>
+                </div>
+                <div class="profile-item">
+                  <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
+                    <span>Want to become a Seller or Buyer?</span></a>
             </div>
         </div>
     </div>
     <div class="container" id="no-padding">
+        <div class="add-to-cart">
+            <button><i class="fa fa-shopping-cart"></i></button>
+        </div>
         <div class="login-container" id="giveheight">
             <div class="login-form col-8">
                 <h2>Login To Your Account</h2>

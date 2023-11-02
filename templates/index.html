@@ -24,8 +24,8 @@
 <body>
     <div class="navbar">
         <div class="list">
-        <a href="#">Home</a>
-        <a href="#">Products</a>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('products') }}">Products</a>
         <a href="#">About Us</a>
         <a href="#">Contact</a>
         </div>
@@ -34,18 +34,21 @@
         </div>
         <div class="profile-icons">
             <div class="profile-item">
-                <a href="{{ url_for('signup') }}"><i class="fas fa-user-circle"></i>
-                <span>Want to become a buyer?</span></a>
+                <a href="{{ url_for('farmer') }}"><i class="fas fa-user-circle"></i>
+                <span>Profile</span></a>
             </div>
             <div class="profile-item">
-              <a href="#"><i class="fas fa-store"></i>
-                <span>Want to become a seller?</span></a>
+              <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
+                <span>Want to become a Seller or Buyer?</span></a>
             </div>
         </div>
     </div>
     <div class="banner">
     </div>
     <div class="container">
+        <div class="add-to-cart">
+            <button><i class="fa fa-shopping-cart"></i></button>
+        </div>
         <div class="about-section">
             <div class="about-content">
                 <h2>About Us</h2>
@@ -73,19 +76,19 @@
         <div class="categories">
             <div class="category">
                 <a href="#">
-                    <img src="{{ url_for('static', filename='images') }}/vegetable.jpg" alt="Vegetables">
+                    <img src="{{ url_for('static', filename='images') }}/tomato farm.jpg" alt="Vegetables">
                     <h3>Vegetables</h3>
                 </a>
             </div>
             <div class="category">
                 <a href="#">
-                    <img src="{{ url_for('static', filename='images') }}/fruits.jpg" alt="Fruits">
+                    <img src="{{ url_for('static', filename='images') }}/Apple Farms.jpg" alt="Fruits">
                     <h3>Fruits</h3>
                 </a>
             </div>
             <div class="category">
                 <a href="#">
-                    <img src="{{ url_for('static', filename='images') }}/livestock.jpg" alt="Livestock">
+                    <img src="{{ url_for('static', filename='images') }}/rice.jpg" alt="Livestock">
                     <h3>Livestock</h3>
                 </a>
             </div>

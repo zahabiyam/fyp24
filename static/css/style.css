@@ -360,6 +360,28 @@ body {
     font-weight: bold;
     margin-top: 10px;
 }
+.product-description{
+    text-align: center;
+}
+.product-price{
+    text-align: center;
+}
+button#add-to-cart {
+    background-color: #fff;
+    color: #1A5D1A;
+    padding: 10px 20px;
+    border: 2px solid #1A5D1A;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 15px;
+}
+
+button#add-to-cart:hover {
+    background-color: #1A5D1A;
+    color: #fff;
+}
 #no-padding{
     padding: 0;
     max-width: initial;
@@ -476,4 +498,72 @@ body {
     margin-bottom: 15px;
     background: #EDF5F3;
     height: 37px;
+}
+.add-to-cart {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 999;
+}
+
+.add-to-cart button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.add-to-cart button i {
+    font-size: 30px;
+    margin-right: 5px;
+    color: #fff;
+    background: #1A5D1A;
+    padding: 0.5em;
+    border-radius: 50%;
+}
+
+.profile-dashboard {
+    display: flex;
+    justify-content: space-between;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.profile-details {
+    flex: 2;
+}
+
+.profile-details h2 {
+    margin-bottom: 20px;
+}
+
+.profile-details form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-details label {
+    font-weight: bold;
+}
+
+.profile-details input, .profile-details select, .profile-details textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.profile-details button {
+    background-color: #1A5D1A;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.profile-details button:hover {
+    background-color: #155512;
 }
