@@ -33,13 +33,15 @@
             <input type="text" placeholder="Search" class="search-bar" id="searchInput">
         </div>
         <div class="profile-icons">
-            <div class="profile-item">
-                <a href="#"><i class="fas fa-user-circle"></i>
-                <span>Profile</span></a>
-            </div>
+            {% if user_id %}
+                <div class="profile-item">
+                    <a href="{{ url_for('farmer') }}"><i class="fas fa-user-circle"></i>
+                    <span>Profile</span></a>
+                </div>
+            {% endif %}
             <div class="profile-item">
               <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
-                <span>Want to become a Seller or Buyer?</span></a>
+                <span>Want to become a Farmer or Customer?</span></a>
             </div>
         </div>
     </div>
@@ -72,5 +74,7 @@
     </div>
     </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{{ url_for('static', filename='js') }}/script.js"></script>
 </html>
