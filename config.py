@@ -1,18 +1,18 @@
 import os
 from flask import Flask
-import mysql
+from flask_mysqldb import MySQL
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'MyKey'
 
 
-# mysql=MySQL(bd_report)
-# bd_report.config['MYSQL_HOST'] = '182.188.46.104'
-# bd_report.config['MYSQL_USER'] = 'admin'
-# bd_report.config['MYSQL_PASSWORD'] = 'Admin!123'
-# bd_report.config['MYSQL_DB'] = 'bd_report'
-# bd_report.config['MYSQL_PORT'] = 3307
+mysql=MySQL(app)
+app.config['MYSQL_HOST'] = '192.168.10.4'
+app.config['MYSQL_USER'] = 'admin'
+app.config['MYSQL_PASSWORD'] = 'Admin!123'
+app.config['MYSQL_DB'] = 'farmer_friend'
+app.config['MYSQL_PORT'] = 3307
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
