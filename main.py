@@ -29,5 +29,9 @@ def products():
 def farmer():
     return render_template('farmer.html')
 
+@app.route("/profile", methods=['GET', 'POST'])
+def farmer():
+    return render_template('profile.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
