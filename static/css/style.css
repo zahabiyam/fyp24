@@ -567,3 +567,39 @@ button#add-to-cart:hover {
 .profile-details button:hover {
     background-color: #155512;
 }
+.profile {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.profile h1{
+    text-align: center;
+}
+.profile .info-item {
+    margin: 10px 0;
+}
+
+.profile .personal-info {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+
+.profile .about {
+    padding-top: 20px;
+}
+.profile button {
+    background-color: #1A5D1A;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.profile button:hover {
+    background-color: #155512;
+}
