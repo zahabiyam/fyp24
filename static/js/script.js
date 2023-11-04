@@ -38,8 +38,10 @@ $("#signup_form #submit").click(async function(event) {
         data: data
     }).then((response) => {
         console.log(response);
-        if (response.data.status == "success") {
-            window.location.href = "/login";
+        if (response.data.success) {
+            if(response.data.category == "farmer") {
+                window.location.href = "/login";
+            }
         } else {
             alert(response.data.message);
         }
@@ -47,3 +49,24 @@ $("#signup_form #submit").click(async function(event) {
         console.log(error);
     });
 })
+
+$("#farmer_login #submit").click(async function(event) {
+    event.preventDefault();
+    var data = $("#farmer_login").serializeArray();
+    data = {
+        "data": data
+    }
+    console.log(data);
+    resp = await axios({
+        method: "POST",
+        url: baseUrl + "/login",
+        data: data
+    })
+    console.log(resp);
+    if(!resp.data.success) {
+        alert(resp.data.message);
+        $("#farmer_login").trigger("reset");
+    } else {
+        window.location.href = "/";
+    }
+});

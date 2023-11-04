@@ -34,12 +34,8 @@
         </div>
         <div class="profile-icons">
             <div class="profile-item">
-                <a href="#"><i class="fas fa-user-circle"></i>
-                    <span>Profile</span></a>
-                </div>
-                <div class="profile-item">
-                  <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
-                    <span>Want to become a Seller or Buyer?</span></a>
+                <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
+                <span>Want to become a Farmer or Customer?</span></a>
             </div>
         </div>
     </div>
@@ -51,7 +47,7 @@
             <div class="login-form col-8">
                 <h2>Login To Your Account</h2>
                 <h3>Stay Updated On Your Professional Work</h3>
-                <form>
+                <form id = "farmer_login" method="POST">
                     <div class="form-group">
                         <input type="text" id="username" placeholder="Enter Your Name" name="username" required>
                     </div>
@@ -59,7 +55,7 @@
                         <input type="password" placeholder="Enter Password" id="password" name="password" required>
                     </div>
                     <div class="center-btn">
-                    <button type="submit">Login</button>
+                        <button type="button" id="submit">Login</button>
                     </div>
                 </form>
             </div>
@@ -72,5 +68,6 @@
     </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{{ url_for('static', filename='js') }}/script.js"></script>
 </html>
