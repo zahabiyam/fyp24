@@ -76,5 +76,9 @@ def products():
 def farmer():
     return render_template('farmer.html')
 
+@app.route("/buyer", methods=['GET', 'POST'])
+def buyer():
+    return render_template('buyer.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

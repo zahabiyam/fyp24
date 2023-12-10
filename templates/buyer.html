@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer's Friend</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css') }}/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css') }}/resize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon') }}/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon') }}/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon') }}/favicon-16x16.png">
+    <link rel="manifest" href="{{ url_for('static', filename='favicon') }}/site.webmanifest">
+    <link rel="mask-icon" href="{{ url_for('static', filename='favicon') }}/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images') }}/logo.png" alt="Your Logo">
+    </div>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="list">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('products') }}">Products</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Search" class="search-bar" id="searchInput">
+        </div>
+        <div class="profile-icons">
+            <div class="profile-item">
+                <a href="#"><i class="fas fa-user-circle"></i>
+                <span>Profile</span></a>
+            </div>
+            <div class="profile-item">
+              <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
+                <span>Want to become a Seller or Buyer?</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="profile">
+            <h1>Your Profile</h1>
+            <section class="personal-info">
+                <h2>Personal Information</h2>
+                <div class="info-item">
+                    <strong>Name:</strong> John Doe
+                </div>
+                <div class="info-item">
+                    <strong>Email:</strong> john@example.com
+                </div>
+                <div class="info-item">
+                    <strong>Address:</strong> 123 Main St, Cityville
+                </div>
+                <div class="info-item">
+                    <strong>Phone Number:</strong> (123) 456-7890
+                </div>
+            </section>
+            <section class="about">
+                <h2>About</h2>
+                <div class="info-item">
+                    <strong>Farm Size:</strong> 10 acres
+                </div>
+                <div class="info-item">
+                    <strong>Total Deliveries:</strong> 500
+                </div>
+                <div class="info-item">
+                    <strong>Customer Reviews:</strong> 4.8 / 5.0
+                </div>
+            </section>
+            <button type="submit">Update Profile</button>
+        </div>
+
+    </div>
+</body>
+<script src="{{ url_for('static', filename='js') }}/script.js"></script>
+</html>
