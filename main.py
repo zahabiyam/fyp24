@@ -80,5 +80,9 @@ def farmer():
 def buyer():
     return render_template('buyer.html')
 
+@app.route("/checkout", methods=['GET', 'POST'])
+def checkout():
+    return render_template('checkout.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
