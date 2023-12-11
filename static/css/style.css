@@ -608,7 +608,6 @@ button#add-to-cart:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     background-color: #f9f9f9;
 }
 
@@ -649,4 +648,21 @@ button#add-to-cart:hover {
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 10px;
+}
+.checkout-form button{
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #1A5D1A;
+        color: #fff;
+        cursor: pointer;
+        font-weight: bold;
+}
+.checkout-form button:hover{
+    background-color: #155512;
+
+}
+.checkout-form h3{
+    font-size: 1.5em;
 }
