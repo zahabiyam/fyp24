@@ -51,7 +51,7 @@
                     <label for="product-name">Product Name:</label>
                     <input type="text" id="product-name" name="product-name" value="Product ABC" readonly>
                     <label for="product-image">Product Image:</label>
-                    <img src="product-image.jpg" alt="Product Image" class="product-image">
+                    <img src="{{ url_for('static', filename='images') }}/carrot.jpg"" alt="Product Image" class="product-image">
                     <label for="amount">Amount:</label>
                     <input type="text" id="amount" name="amount" required>
                     <label for="quantity">Quantity:</label>
