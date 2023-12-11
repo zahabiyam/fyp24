@@ -47,6 +47,7 @@
         <h2>Checkout</h2>
         <div class="checkout-container">
             <div class="checkout-form">
+
                 <div class="form-column">
                     <label for="product-name">Product Name:</label>
                     <input type="text" id="product-name" name="product-name" value="Product ABC" readonly>
@@ -77,9 +78,8 @@
                     <textarea id="purchased-items" name="purchased-items" required></textarea>
                 </div>
             </div>
-            <button type="submit">Checkout Now</button>
         </div>
-    
+        <button type="submit">Checkout Now</button>
     </div>
 </body>
 <script src="{{ url_for('static', filename='js') }}/script.js"></script>
