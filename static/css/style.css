@@ -613,7 +613,7 @@ button#add-to-cart:hover {
 }
 
 .checkout-form {
-    max-width: 800px;
+    max-width: 1400px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -626,6 +626,10 @@ button#add-to-cart:hover {
 .form-column {
     flex: 1;
     padding: 0 10px;
+}
+
+.checkout-form .product-image{
+    max-height: 185px;
 }
 
 .checkout-form label {
