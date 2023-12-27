@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon') }}/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon') }}/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon') }}/favicon-16x16.png">
-    <link rel="manifest" href="{{ url_for('static', filename='favicon') }}/site.webmanifest">
+    <!-- <link rel="manifest" href="{{ url_for('static', filename='favicon') }}/site.webmanifest"> -->
     <link rel="mask-icon" href="{{ url_for('static', filename='favicon') }}/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
@@ -35,14 +35,15 @@
         <div class="profile-icons">
             {% if user_id %}
                 <div class="profile-item">
-                    <a href="{{ url_for('farmer') }}"><i class="fas fa-user-circle"></i>
+                    <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>
                     <span>Profile</span></a>
                 </div>
-            {% endif %}
+            {% else %}
             <div class="profile-item">
                 <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
                 <span>Want to become a Farmer or Customer?</span></a>
             </div>
+            {% endif %}
         </div>
     </div>
     <div class="productbanner">
@@ -51,23 +52,31 @@
         <div class="add-to-cart">
             <button><i class="fa fa-shopping-cart"></i></button>
         </div>
-        <div class="product-card">
-            <img class="product-image" src="{{ url_for('static', filename='images') }}/mangoes.jpg" alt="Product 1">
-            <h2 class="product-title">Mangoes</h2>
-            <p class="product-description">Enjoy the sweet, tropical delight of our fresh mangoes. Bursting with juicy goodness, each bite takes you on a journey to sun-kissed orchards.</p>
-            <p class="product-price">$19.99</p>
-            <button id="add-to-cart">Add to Cart</button>
-        </div>
-        <div class="product-card">
-            <img class="product-image" src="{{ url_for('static', filename='images') }}/carrot.jpg" alt="Product 2">
-            <h2 class="product-title">Carrot</h2>
-            <p class="product-description">Crisp and versatile, our carrots are nature's snack. From salads to smoothies, these vibrant veggies add a healthy crunch to your meals.</p>
-            <p class="product-price">$24.99</p>
-            <button id="add-to-cart">Add to Cart</button>
+        <div id="products"></div>
+        <div id="add_to_cart_popup">
+            <div class="add_to_cart_popup_content">
+                <div class="add_to_cart_popup_header">
+                    <h2>Product added to cart</h2>
+                    <span class="add_to_cart_popup_close">&times;</span>
+                </div>
+                <div class="add_to_cart_popup_body">
+                    <div class="add_to_cart_popup_body_image">
+                        <img src="" alt="" id="add_to_cart_popup_image">
+                    </div>
+                    <div class="add_to_cart_popup_body_details">
+                        <h3 id="add_to_cart_popup_name"></h3>
+                        <p id="add_to_cart_popup_price"></p>
+                        <p id="add_to_cart_popup_quantity"></p>
+                    </div>
+                </div>
+                <div class="add_to_cart_popup_footer">
+                    <a href="">View Cart</a>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="script.js"></script>
+<script src="{{ url_for('static', filename='js') }}/script.js"></script>
 </html>

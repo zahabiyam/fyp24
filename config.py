@@ -8,7 +8,7 @@ app.config['SECRET_KEY'] = 'MyKey'
 
 
 mysql=MySQL(app)
-app.config['MYSQL_HOST'] = '192.168.10.4'
+app.config['MYSQL_HOST'] = '182.188.46.104'
 app.config['MYSQL_USER'] = 'admin'
 app.config['MYSQL_PASSWORD'] = 'Admin!123'
 app.config['MYSQL_DB'] = 'farmer_friend'

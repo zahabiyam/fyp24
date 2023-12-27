@@ -33,14 +33,21 @@
             <input type="text" placeholder="Search" class="search-bar" id="searchInput">
         </div>
         <div class="profile-icons">
-            <div class="profile-item">
-                <a href="#"><i class="fas fa-user-circle"></i>
-                <span>Profile</span></a>
-            </div>
-            <div class="profile-item">
-              <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
-                <span>Want to become a Seller or Buyer?</span></a>
-            </div>
+            {% if user_id %}
+                <div class="profile-item">
+                    <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>
+                    <span>Profile</span></a>
+                </div>
+            {% else %}
+                <div class="profile-item">
+                    <a href="{{ url_for('login') }}"><i class="fas fa-store"></i>
+                    <span>Login</span></a>
+                </div>
+                <div class="profile-item">
+                    <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
+                    <span>Want to become a Farmer or Customer?</span></a>
+                </div>
+            {% endif %}
         </div>
     </div>
     <div class="container">
@@ -49,28 +56,25 @@
             <section class="personal-info">
                 <h2>Personal Information</h2>
                 <div class="info-item">
-                    <strong>Name:</strong> John Doe
+                    <strong>Name:</strong> {{user.name}}
                 </div>
                 <div class="info-item">
-                    <strong>Email:</strong> john@example.com
+                    <strong>Email:</strong> {{ user.email }}
                 </div>
                 <div class="info-item">
-                    <strong>Address:</strong> 123 Main St, Cityville
+                    <strong>Address:</strong> {{ user.location }}
                 </div>
                 <div class="info-item">
-                    <strong>Phone Number:</strong> (123) 456-7890
+                    <strong>Phone Number:</strong> {{ user.phone }}
                 </div>
             </section>
             <section class="about">
                 <h2>About</h2>
                 <div class="info-item">
-                    <strong>Farm Size:</strong> 10 acres
+                    <strong>Farm Size:</strong> {{ user.farm_size }}
                 </div>
                 <div class="info-item">
-                    <strong>Total Deliveries:</strong> 500
-                </div>
-                <div class="info-item">
-                    <strong>Customer Reviews:</strong> 4.8 / 5.0
+                    <strong>Total Deliveries:</strong> {{ user.farming_experience }}
                 </div>
             </section>
             <button type="submit">Update Profile</button>

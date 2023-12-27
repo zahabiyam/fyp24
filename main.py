@@ -40,6 +40,29 @@ def signup():
     if request.method != 'POST':
         return render_template('signup.html')
 
+@app.route('/profile',methods=['GET','POST'])
+def profile():
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('login'))
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT role FROM user_account WHERE id = %s", (user_id,))
+    user_role = cur.fetchone()[0]
+    print(user_role)
+    if user_role == 'farmer':
+        cur.execute("SELECT * FROM farmer WHERE UserAccountID = %s", (user_id,))
+        user = cur.fetchone()
+        print(user)
+    user = {
+        'name': user[1],
+        'location': user[2],
+        'phone': user[3],
+        'email': user[4],
+        'farm_size': user[5],
+        'farming_experience': user[6]
+    }
+    return render_template('profile.html', user=user, user_id=user_id)
+
 @app.route('/signup_farmer',methods=["GET","POST"])
 def signup_farmer():
     
@@ -70,7 +93,8 @@ def signup_farmer():
 
 @app.route("/products", methods=['GET', 'POST'])
 def products():
-    return render_template('product.html')
+    user_id = session.get('user_id')
+    return render_template('product.html', user_id = user_id)
 
 @app.route("/farmer", methods=['GET', 'POST'])
 def farmer():

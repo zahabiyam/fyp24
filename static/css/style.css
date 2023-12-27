@@ -366,7 +366,7 @@ body {
 .product-price{
     text-align: center;
 }
-button#add-to-cart {
+button.add-to-cart-btn {
     background-color: #fff;
     color: #1A5D1A;
     padding: 10px 20px;
@@ -378,7 +378,7 @@ button#add-to-cart {
     margin-top: 15px;
 }
 
-button#add-to-cart:hover {
+button.add-to-cart-btn:hover {
     background-color: #1A5D1A;
     color: #fff;
 }
@@ -566,103 +566,4 @@ button#add-to-cart:hover {
 
 .profile-details button:hover {
     background-color: #155512;
-}
-.profile {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-.profile h1{
-    text-align: center;
-}
-.profile .info-item {
-    margin: 10px 0;
-}
-
-.profile .personal-info {
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 20px;
-}
-
-.profile .about {
-    padding-top: 20px;
-}
-.profile button {
-    background-color: #1A5D1A;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.profile button:hover {
-    background-color: #155512;
-}
-
-.checkout-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f9f9f9;
-}
-
-.checkout-form {
-    max-width: 1400px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.form-column {
-    flex: 1;
-    padding: 0 10px;
-}
-
-.checkout-form .product-image{
-    max-height: 185px;
-}
-
-.checkout-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.checkout-form input[type="text"],
-.checkout-form input[type="email"],
-.checkout-form input[type="tel"],
-.checkout-form input[type="number"],
-.checkout-form select,
-.checkout-form textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-.checkout-form button{
-        width: 100%;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: #1A5D1A;
-        color: #fff;
-        cursor: pointer;
-        font-weight: bold;
-}
-.checkout-form button:hover{
-    background-color: #155512;
-
-}
-.checkout-form h3{
-    font-size: 1.5em;
 }
