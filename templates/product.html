@@ -49,30 +49,17 @@
     <div class="productbanner">
     </div>
     <div class="container">
-        <div class="add-to-cart">
-            <button><i class="fa fa-shopping-cart"></i></button>
+        <div class="add-to-cart" id="add_to_cart">
+            <button type="button"><i class="fa fa-shopping-cart"></i><span class='badge badge-warning' id='lblCartCount'>0</span></button>
         </div>
         <div id="products"></div>
-        <div id="add_to_cart_popup">
-            <div class="add_to_cart_popup_content">
-                <div class="add_to_cart_popup_header">
-                    <h2>Product added to cart</h2>
-                    <span class="add_to_cart_popup_close">&times;</span>
-                </div>
-                <div class="add_to_cart_popup_body">
-                    <div class="add_to_cart_popup_body_image">
-                        <img src="" alt="" id="add_to_cart_popup_image">
-                    </div>
-                    <div class="add_to_cart_popup_body_details">
-                        <h3 id="add_to_cart_popup_name"></h3>
-                        <p id="add_to_cart_popup_price"></p>
-                        <p id="add_to_cart_popup_quantity"></p>
-                    </div>
-                </div>
-                <div class="add_to_cart_popup_footer">
-                    <a href="">View Cart</a>
-                </div>
+        <!-- The Modal -->
+        <div id="myModal_add_to_cart" class="modal-add-cart hide">
+            <!-- Modal content -->
+            <div class="modal-add-cart-content" id="modal_add_cart_content">
+                <span class="modal-close">&times;</span>
             </div>
+            <button type="button" class="btn btn-primary" id="checkout">Checkout</button>
         </div>
     </div>
 </body>

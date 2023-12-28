@@ -106,7 +106,12 @@ def buyer():
 
 @app.route("/checkout", methods=['GET', 'POST'])
 def checkout():
-    return render_template('checkout.html')
+    if request.method != 'POST':
+        return render_template('checkout.html')
+    
+    data = request.get_json()['data']
+    print(data)
+    return jsonify({"success":True, 'message':'User created successfully'})
 
 if __name__ == '__main__':
     app.run(debug=True)

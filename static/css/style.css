@@ -34,6 +34,15 @@ body {
     background-color: #1A5D1A;
     overflow: hidden;
 }
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
 .navbar .list{
     margin-left: 134px;
 }
@@ -567,3 +576,59 @@ button.add-to-cart-btn:hover {
 .profile-details button:hover {
     background-color: #155512;
 }
+
+.modal-add-cart {
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 5%;
+    width: 25%;
+    height: 20%;
+    overflow: auto;
+    bottom: 0px;
+  }
+  
+  /* Modal Content */
+  .modal-add-cart-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  /* The Close Button */
+  .modal-close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .modal-close:hover,
+  .modal-close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .badge {
+    padding-left: 9px;
+    padding-right: 9px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+  }
+  
+  .label-warning[href],
+  .badge-warning[href] {
+    background-color: #c67605;
+  }
+  #lblCartCount {
+      font-size: 12px;
+      background: #ff0000;
+      color: #fff;
+      padding: 0 5px;
+      vertical-align: top;
+      margin-left: -10px; 
+  }
