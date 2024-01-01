@@ -579,19 +579,23 @@ button.add-to-cart-btn:hover {
 
 .modal-add-cart {
     position: fixed;
-    z-index: 1;
-    padding-top: 100px;
-    left: 5%;
-    width: 25%;
-    height: 20%;
-    overflow: auto;
-    bottom: 0px;
+    z-index: 1000; 
+    left: 50%;
+    top: 50px; 
+    transform: translateX(-50%); 
+    width: 80%;
+    max-width: 600px; 
+    overflow: auto; 
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    height: 70%;
   }
   
   /* Modal Content */
   .modal-add-cart-content {
     background-color: #fefefe;
-    margin: auto;
+    margin: 0 auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
@@ -599,7 +603,7 @@ button.add-to-cart-btn:hover {
   
   /* The Close Button */
   .modal-close {
-    color: #aaaaaa;
+    color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -611,6 +615,22 @@ button.add-to-cart-btn:hover {
     text-decoration: none;
     cursor: pointer;
   }
+
+  #checkout {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #1A5D1A;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#checkout:hover {
+    background-color: #155512;
+}
 
   .badge {
     padding-left: 9px;
@@ -632,3 +652,58 @@ button.add-to-cart-btn:hover {
       vertical-align: top;
       margin-left: -10px; 
   }
+
+.checkout-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+}
+
+.checkout-form {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.checkout-form .form-column {
+    flex: 1;
+    padding: 0 10px;
+}
+
+.checkout-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.checkout-form input[type="text"],
+.checkout-form input[type="email"],
+.checkout-form input[type="tel"],
+.checkout-form input[type="number"],
+.checkout-form select,
+.checkout-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.checkout-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1A5D1A;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.checkout-form button:hover {
+    background-color: #155512;
+}
