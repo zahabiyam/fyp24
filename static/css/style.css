@@ -670,6 +670,14 @@ button.add-to-cart-btn:hover {
     border-radius: 5px;
 }
 
+.single-item {
+    display: inline-block;
+    width: 300px; /* Set width for each item */
+    margin-right: 20px; /* Set margin between items */
+    vertical-align: top;
+    transition: transform 0.3s ease; /* Add transition for smooth slide effect */
+}
+
 .checkout-form .form-column {
     flex: 1;
     padding: 0 10px;

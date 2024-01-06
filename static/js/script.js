@@ -1,7 +1,7 @@
-let baseUrl = new URL(window.location.href);
+var baseUrl = new URL(window.location.href);
 baseUrl = `${baseUrl.protocol}//${baseUrl.hostname}:${baseUrl.port}`;
-let cart_count = 0;
-let productData = [
+var cart_count = 0;
+var productData = [
     {
         "id": 1,
         "url": "../static/images/mangoes.jpg",
@@ -88,6 +88,7 @@ function add_to_cart(obj) {
     } 
 }
 
+
 $(document).on("click", "#add_to_cart", function() {
     if ($("#myModal_add_to_cart").hasClass("hide")) {
         $("#myModal_add_to_cart").removeClass("hide");
@@ -125,6 +126,9 @@ $(document).on("click", "#checkout", function() {
         }
     }).then((response) => {
         console.log(response);
+        document.write(response.data);
+    }).catch((error) => {
+        console.log(error);
     });
 });
 

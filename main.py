@@ -109,9 +109,12 @@ def checkout():
     if request.method != 'POST':
         return render_template('checkout.html')
     
+    if 'user_id' not in session.keys():
+        return redirect(url_for('login'))
+    
     data = request.get_json()['data']
     print(data)
-    return jsonify({"success":True, 'message':'User created successfully'})
+    return render_template('checkout.html', data=data)
 
 if __name__ == '__main__':
     app.run(debug=True)

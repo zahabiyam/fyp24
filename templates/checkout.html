@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer's Friend</title>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css') }}/style.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css') }}/resize.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
@@ -49,18 +50,27 @@
             <div class="checkout-form">
 
                 <div class="form-column">
-                    <h3>Product Details</h3>
-                    <label for="product-name">Product Name:</label>
-                    <input type="text" id="product-name" name="product-name" value="Product ABC" readonly>
-                    <label for="product-image">Product Image:</label>
-                    <img src="{{ url_for('static', filename='images') }}/carrot.jpg"" alt="Product Image" class="product-image">
-                    <label for="amount">Amount:</label>
-                    <input type="text" id="amount" name="amount" required>
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" required>
-                    <label for="purchased-items">List of Amount Purchasing:</label>
-                    <input type="text" id="purchased-items" name="purchased-items" required></input>
+                    {% if data %}
+                        {% for i in data %}
+                            <div class="single-item">
+                                <h3>Product Details</h3>
+                                <label for="product-name">Product Name:</label>
+                                    <input type="text" id="product-name" name="product-name" value="{{ i.product_title }}" readonly>
+                                <label for="product-image">Product Image:</label>
+                                    <img src="{{ i.product_url }}"" alt="Product Image" class="product-image">
+                                <label for="amount">Amount:</label>
+                                    <input type="text" id="amount" name="amount" value="{{ i.product_price }}" required>
+                                <label for="quantity">Quantity:</label>
+                                    <input type="number" id="quantity" name="quantity" value="{{ i.quantity }}" required>
+                                <!-- <label for="purchased-items">List of Amount Purchasing:</label>
+                                    <input type="text" id="purchased-items" name="purchased-items" required></input> -->
+                                <!-- <button type="button" class="prevBtn">Previous</button>
+                                <button type="button" class="nextBtn">Next</button> -->
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
+
                 <div class="form-column">
                     <h3>Customer Details</h3>
                     <label for="customer-name">Customer Name:</label>
@@ -84,5 +94,8 @@
         </div>
     </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{{ url_for('static', filename='js') }}/script.js"></script>
+<script src="{{ url_for('static', filename='js') }}/script_slider.js"></script>
 </html>
