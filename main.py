@@ -116,5 +116,9 @@ def checkout():
     print(data)
     return render_template('checkout.html', data=data)
 
+@app.route("/invoice", methods=['GET', 'POST'])
+def invoice():
+    return render_template('invoice.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

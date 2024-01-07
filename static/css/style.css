@@ -715,3 +715,31 @@ button.add-to-cart-btn:hover {
 .checkout-form button:hover {
     background-color: #155512;
 }
+.invoice {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.invoice-header {
+    text-align: center;
+}
+
+.invoice .item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.invoice .customer-details,
+.invoice .itemized-list,
+.invoice .payment-info {
+    margin-top: 20px;
+}
+
+.invoice .total-amount {
+    text-align: right;
+    font-weight: bold;
+    margin-top: 20px;
+}
