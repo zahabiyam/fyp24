@@ -132,6 +132,53 @@ $(document).on("click", "#checkout", function() {
     });
 });
 
+$(document).on("click", "#customer_checkout #ch_submit", function() {
+    var customer_name = $(this).parent().find("#customer_name").val();
+    var customer_phone = $(this).parent().find("#customer_phone").val();
+    var customer_email = $(this).parent().find("#customer_email").val();
+    var payment_method = $(this).parent().find("#payment_method").val();
+    var state = $(this).parent().find("#state").val();
+    var city = $(this).parent().find("#city").val();
+
+    var t_products = $(".single-item");
+    var products = [];
+
+    for(let i=0; i<t_products.length; i++) {
+        var temp = {}
+        temp["product_name"] = t_products[i].querySelector(".product-name").value;
+        // temp["product_price"] = t_products[i].querySelector(".amount").value;
+        //'Rs. 150/- per kg extract numbers from this string regex
+        var price = t_products[i].querySelector(".amount").value;
+        price = price.match(/\d+/g);
+        temp["product_price"] = price[0]; 
+        // temp["product_price"] = 
+        temp["product_quantity"] = t_products[i].querySelector(".quantity").value;
+        
+        products.push(temp);
+    }
+    
+    var data = {
+        "customer_name": customer_name,
+        "customer_phone": customer_phone,
+        "customer_email": customer_email,
+        "payment_method": payment_method,
+        "state": state,
+        "city": city,
+        "products": products
+    }
+    console.log(data);
+    axios({
+        method: "POST",
+        url: baseUrl + "/invoice",
+        data: {"data": data}
+    }).then((response) => {
+        if(response.data.success) {
+            window.location.href = "/pinvoice";
+        }
+    }).catch((error) => {
+        console.log(error);
+    });
+});
 
 document.getElementById('searchInput').addEventListener('keyup', function() {
     const searchTerm = this.value.toLowerCase();

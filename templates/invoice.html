@@ -48,35 +48,33 @@
         <h2>Invoice</h2>
         <div class="invoice">
             <div class="invoice-header">
-                <p>Date: January 1, 2023</p>
-                <p>Invoice Number: INV-001</p>
+                <p>Date: {{ data.date }}</p>
+                <p>Invoice Number: {{ data.invoice_number }}</p>
             </div>
             <hr>
             <div class="customer-details">
                 <h2>Customer Details</h2>
-                <p><strong>Customer Name:</strong> John Doe</p>
-                <p><strong>Email:</strong> johndoe@example.com</p>
-                <p><strong>Phone:</strong> +1234567890</p>
-                <p><strong>Address:</strong> 123 Street, City, Country</p>
+                <p><strong>Customer Name:</strong> {{ data.customer_name }}</p>
+                <p><strong>Email:</strong> {{ data.customer_email }}</p>
+                <p><strong>Phone:</strong> {{ data.customer_phone }}</p>
+                <!-- <p><strong>Address:</strong> 123 Street, City, Country</p> -->
             </div>
             <hr>
             <div class="itemized-list">
                 <h2>Itemized List</h2>
-                <div class="item">
-                    <p><strong>Product Name:</strong> Product 1</p>
-                    <p><strong>Unit Price:</strong> $50</p>
-                    <p><strong>Quantity:</strong> 2</p>
-                    <p><strong>Total:</strong> $100</p>
-                </div>
-                <div class="item">
-                    <p><strong>Product Name:</strong> Product 2</p>
-                    <p><strong>Unit Price:</strong> $30</p>
-                    <p><strong>Quantity:</strong> 1</p>
-                    <p><strong>Total:</strong> $30</p>
-                </div>
+                {% set total = namespace(value=0) %}
+                {% for i in data.products %}
+                    <div class="item">
+                        <p><strong>Product Name:</strong> {{ i.product_name }}</p>
+                        <p><strong>Unit Price:</strong> Rps. {{ i.product_price }}</p>
+                        <p><strong>Quantity:</strong> {{ i.product_quantity }}</p>
+                        <p><strong>Total:</strong> Rps. {{ i.product_price * i.product_quantity }}</p>
+                    </div>
+                    {% set total.value = total.value + ( i.product_price * i.product_quantity) %}
+                {% endfor %}
             </div>
             <div class="total-amount">
-                <p><strong>Total Amount:</strong> $130</p>
+                <p><strong>Total Amount:</strong> Rps. {{ total.value }}</p>
             </div>
             <hr>
             <div class="payment-info">

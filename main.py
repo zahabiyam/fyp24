@@ -2,6 +2,7 @@ import requests, json
 from flask import render_template, redirect, url_for, request, session, jsonify
 from config import app, mysql
 from datetime import datetime
+import random
 
 #################### UPDATED TO CHECK PULL PUSH GIT ###############
 ############ Second Check ############
@@ -116,9 +117,32 @@ def checkout():
     print(data)
     return render_template('checkout.html', data=data)
 
+@app.route("/pinvoice", methods=['GET', 'POST'])
+def pinvoice():
+
+    if 'user_id' not in session.keys():
+        return redirect(url_for('login'))
+    
+    data = session.get("checkout_data")
+    date = datetime.now().strftime("%d/%m/%Y")
+    data['date'] = date
+    data['invoice_number'] = "INV-"+ str(random.randint(10000, 99999))
+    for i in data['products']:
+        i['product_price'], i['product_quantity'] = int(i['product_price']), int(i['product_quantity'])
+    print(data)
+    return render_template('invoice.html', data=data)
+
 @app.route("/invoice", methods=['GET', 'POST'])
 def invoice():
-    return render_template('invoice.html')
+    if request.method != 'POST':
+        return render_template('invoice.html')
+    if 'user_id' not in session.keys():
+        return redirect(url_for('login'))
+    data = request.get_json()['data']
+    session["checkout_data"] = data
+    return {
+        "success":True
+    }
 
 if __name__ == '__main__':
     app.run(debug=True)
