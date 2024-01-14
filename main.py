@@ -12,16 +12,25 @@ to_reload = False
 
 @app.route('/',methods=['GET','POST'])
 def index():
-    user_id = session.get('user_id')
-    if not user_id:
+    # if "farmer_id" in session.keys():
+    farmer_id = session.get("farmer_id")
+    # if "buyer_id" in session.keys():
+    buyer_id = session.get("buyer_id")
+    if not farmer_id and not buyer_id:
         return render_template('index.html')
-    return render_template('index.html', user_id=user_id)
-    
+    return render_template('index.html', farmer_id=farmer_id, buyer_id=buyer_id)
 
-@app.route('/login',methods=['GET','POST'])
-def login():
+
+@app.route('/logout',methods=['GET','POST'])
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+
+@app.route('/farmer_login',methods=['GET','POST'])
+def farmer_login():
     if request.method != 'POST':
-        return render_template('login.html')
+        return render_template('farmer_login.html')
     
     data = request.get_json()['data']
     user_data = {}
@@ -33,7 +42,25 @@ def login():
     print(user)
     if not user:
         return jsonify({"success":False, "message":"Invalid username or password"})
-    session['user_id'] = user[0]
+    session['farmer_id'] = user[0]
+    return jsonify({"success":True, "message":"Login successful", "category":user[3]})
+
+@app.route('/buyer_login',methods=['GET','POST'])
+def buyer_login():
+    if request.method != 'POST':
+        return render_template('buyer_login.html')
+    
+    data = request.get_json()['data']
+    user_data = {}
+    for i in data:
+        user_data[i['name']] = str(i['value'])
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM user_account WHERE username = %s AND password = %s", (user_data['username'], user_data['password']))
+    user = cur.fetchone()
+    print(user)
+    if not user:
+        return jsonify({"success":False, "message":"Invalid username or password"})
+    session['buyer_id'] = user[0]
     return jsonify({"success":True, "message":"Login successful", "category":user[3]})
 
 @app.route('/signup',methods=['GET','POST'])
@@ -43,26 +70,37 @@ def signup():
 
 @app.route('/profile',methods=['GET','POST'])
 def profile():
-    user_id = session.get('user_id')
-    if not user_id:
-        return redirect(url_for('login'))
+    # user_id = session.get('user_id')
+    if 'farmer_id' not in session.keys() and 'buyer_id' not in session.keys():
+        return redirect(url_for('farmer_login'))
+    
+    farmer_id = session.get('farmer_id')
+    buyer_id = session.get('buyer_id')
+    
     cur = mysql.connection.cursor()
-    cur.execute("SELECT role FROM user_account WHERE id = %s", (user_id,))
-    user_role = cur.fetchone()[0]
-    print(user_role)
-    if user_role == 'farmer':
-        cur.execute("SELECT * FROM farmer WHERE UserAccountID = %s", (user_id,))
+    if farmer_id:
+        cur.execute("SELECT * FROM farmer WHERE UserAccountID = %s", (farmer_id,))
         user = cur.fetchone()
-        print(user)
-    user = {
-        'name': user[1],
-        'location': user[2],
-        'phone': user[3],
-        'email': user[4],
-        'farm_size': user[5],
-        'farming_experience': user[6]
-    }
-    return render_template('profile.html', user=user, user_id=user_id)
+        user = {
+            'name': user[1],
+            'location': user[2],
+            'phone': user[3],
+            'email': user[4],
+            'farm_size': user[5],
+            'farming_experience': user[6]
+        }
+    elif buyer_id:
+        cur.execute("SELECT * FROM buyer WHERE UserAccountID = %s", (buyer_id,))
+        user = cur.fetchone()
+        user = {
+            'name': user[1],
+            'location': user[2],
+            'phone': user[3],
+            'email': user[4],
+        }
+    print(user)
+    
+    return render_template('profile.html', user=user, farmer_id=farmer_id, buyer_id=buyer_id)
 
 @app.route('/signup_farmer',methods=["GET","POST"])
 def signup_farmer():
@@ -80,22 +118,34 @@ def signup_farmer():
         return jsonify({"success":False, "message":"Passwords do not match"})
     
     cur = mysql.connection.cursor()
+
+    cur.execute("SELECT * from user_account where username = %s and password = %s", (user_data['username'], user_data['password']))
+    user = cur.fetchone()
+    if user:
+        return jsonify({"success":False, "message":"User already exists"})
+
+
     cur.execute("INSERT INTO user_account (username, password, role) values (%s, %s, %s)", (user_data['username'], user_data['password'], user_data['category']))
     mysql.connection.commit()
     user_id = cur.lastrowid
 
-    session['user_id'] = user_id
+    # session['user_id'] = user_id
 
     if user_data['category'] == 'farmer':
         cur.execute("INSERT INTO farmer (Name, Location, ContactPhone, ContactEmail, FarmSize, FarmingExperience, UserAccountID) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user_data['username'], '', user_data['phone'], user_data['email'], 0, 0, user_id))
-        mysql.connection.commit()
+    elif user_data['category'] == 'customer':
+        cur.execute("INSERT INTO buyer (Name, Location, ContactPhone, ContactEmail, UserAccountID) VALUES (%s, %s, %s, %s, %s)", (user_data['username'], '', user_data['phone'], user_data['email'], user_id))
+    mysql.connection.commit()
 
     return jsonify({"success":True, 'message':'User created successfully', "category":user_data['category']})
+
 
 @app.route("/products", methods=['GET', 'POST'])
 def products():
     user_id = session.get('user_id')
-    return render_template('product.html', user_id = user_id)
+    farmer_id = session.get('farmer_id')
+    buyer_id = session.get('buyer_id')
+    return render_template('product.html', farmer_id=farmer_id, buyer_id=buyer_id)
 
 @app.route("/farmer", methods=['GET', 'POST'])
 def farmer():
@@ -110,8 +160,8 @@ def checkout():
     if request.method != 'POST':
         return render_template('checkout.html')
     
-    if 'user_id' not in session.keys():
-        return redirect(url_for('login'))
+    if 'farmer_id' not in session.keys() and 'buyer_id' not in session.keys():
+        return redirect(url_for('farmer_login'))
     
     data = request.get_json()['data']
     print(data)

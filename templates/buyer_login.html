@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon') }}/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon') }}/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon') }}/favicon-16x16.png">
-    <!-- <link rel="manifest" href="{{ url_for('static', filename='favicon') }}/site.webmanifest"> -->
+    <link rel="manifest" href="{{ url_for('static', filename='favicon') }}/site.webmanifest">
     <link rel="mask-icon" href="{{ url_for('static', filename='favicon') }}/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
@@ -33,47 +33,37 @@
             <input type="text" placeholder="Search" class="search-bar" id="searchInput">
         </div>
         <div class="profile-icons">
-            {% if farmer_id or buyer_id %}
-                <div class="profile-item">
-                    <a href="{{ url_for('profile') }}" data-farmer_id = '{{ farmer_id if farmer_id else 0 }}' data-buyer_id = '{{ buyer_id if buyer_id else 0 }}'><i class="fas fa-user-circle"></i>
-                    <span>Profile</span></a>
-                </div>
-                <div class="profile-item">
-                    <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span></a>
-                </div>
-            {% else %}
-            <div class="profile-item">
-                <a href="{{ url_for('farmer_login') }}"><i class="fas fa-store"></i>
-                <span>Farmer Login</span></a>
-            </div>
-            <div class="profile-item">
-                <a href="{{ url_for('buyer_login') }}"><i class="fas fa-store"></i>
-                <span>Buyer Login</span></a>
-            </div>
             <div class="profile-item">
                 <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
                 <span>Want to become a Farmer or Customer?</span></a>
             </div>
-            {% endif %}
         </div>
     </div>
-    <div class="productbanner">
-    </div>
-    <div class="container">
-        {% if buyer_id %}
-        <div class="add-to-cart" id="add_to_cart">
-            <button type="button"><i class="fa fa-shopping-cart"></i><span class='badge badge-warning' id='lblCartCount'>0</span></button>
+    <div class="container" id="no-padding">
+        <div class="add-to-cart">
+            <button><i class="fa fa-shopping-cart"></i></button>
         </div>
-        {% endif %}
-        <div id="products"></div>
-        <!-- The Modal -->
-        <div id="myModal_add_to_cart" class="modal-add-cart hide">
-            <!-- Modal content -->
-            <div class="modal-add-cart-content" id="modal_add_cart_content">
-                <span class="modal-close">&times;</span>
+        <div class="login-container" id="giveheight">
+            <div class="login-form col-8">
+                <h2>Login To Your Account</h2>
+                <h3>Stay Updated On Your Professional Work</h3>
+                <form id = "buyer_login" method="POST">
+                    <div class="form-group">
+                        <input type="text" id="username" placeholder="Enter Your Name" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Enter Password" id="password" name="password" required>
+                    </div>
+                    <div class="center-btn">
+                        <button type="button" id="submit">Login</button>
+                    </div>
+                </form>
             </div>
-            <button type="button" class="btn btn-primary" id="checkout">Checkout</button>
+            <div class="info col-4">
+                <h2>New Here?</h2>
+                <p>Sign up and discover a great amount of new opportunities!</p>
+                <button class="signup-button" onclick="signup()">Sign Up</button>
+            </div>    
         </div>
     </div>
 </body>

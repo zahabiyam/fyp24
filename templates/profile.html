@@ -33,15 +33,23 @@
             <input type="text" placeholder="Search" class="search-bar" id="searchInput">
         </div>
         <div class="profile-icons">
-            {% if user_id %}
+            {% if farmer_id or buyer_id %}
                 <div class="profile-item">
                     <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>
                     <span>Profile</span></a>
                 </div>
+                <div class="profile-item">
+                    <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span></a>
+                </div>
             {% else %}
                 <div class="profile-item">
-                    <a href="{{ url_for('login') }}"><i class="fas fa-store"></i>
-                    <span>Login</span></a>
+                    <a href="{{ url_for('farmer_login') }}"><i class="fas fa-store"></i>
+                    <span>Farmer Login</span></a>
+                </div>
+                <div class="profile-item">
+                    <a href="{{ url_for('buyer_login') }}"><i class="fas fa-store"></i>
+                    <span>Buyer Login</span></a>
                 </div>
                 <div class="profile-item">
                     <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
@@ -52,32 +60,52 @@
     </div>
     <div class="container">
         <div class="profile">
-            <h1>Your Profile</h1>
-            <section class="personal-info">
-                <h2>Personal Information</h2>
-                <div class="info-item">
-                    <strong>Name:</strong> {{user.name}}
-                </div>
-                <div class="info-item">
-                    <strong>Email:</strong> {{ user.email }}
-                </div>
-                <div class="info-item">
-                    <strong>Address:</strong> {{ user.location }}
-                </div>
-                <div class="info-item">
-                    <strong>Phone Number:</strong> {{ user.phone }}
-                </div>
-            </section>
-            <section class="about">
-                <h2>About</h2>
-                <div class="info-item">
-                    <strong>Farm Size:</strong> {{ user.farm_size }}
-                </div>
-                <div class="info-item">
-                    <strong>Total Deliveries:</strong> {{ user.farming_experience }}
-                </div>
-            </section>
-            <button type="submit">Update Profile</button>
+            {% if farmer_id %}
+                <h1>Your Profile</h1>
+                <section class="personal-info">
+                    <h2>Personal Information</h2>
+                    <div class="info-item">
+                        <strong>Name:</strong> {{user.name}}
+                    </div>
+                    <div class="info-item">
+                        <strong>Email:</strong> {{ user.email }}
+                    </div>
+                    <div class="info-item">
+                        <strong>Address:</strong> {{ user.location }}
+                    </div>
+                    <div class="info-item">
+                        <strong>Phone Number:</strong> {{ user.phone }}
+                    </div>
+                </section>
+                <section class="about">
+                    <h2>About</h2>
+                    <div class="info-item">
+                        <strong>Farm Size:</strong> {{ user.farm_size }}
+                    </div>
+                    <div class="info-item">
+                        <strong>Total Deliveries:</strong> {{ user.farming_experience }}
+                    </div>
+                </section>
+                <button type="submit">Update Profile</button>
+            {% elif buyer_id %}
+                <h1>Your Profile</h1>
+                <section class="personal-info">
+                    <h2>Personal Information</h2>
+                    <div class="info-item">
+                        <strong>Name:</strong> {{user.name}}
+                    </div>
+                    <div class="info-item">
+                        <strong>Email:</strong> {{ user.email }}
+                    </div>
+                    <div class="info-item">
+                        <strong>Address:</strong> {{ user.location }}
+                    </div>
+                    <div class="info-item">
+                        <strong>Phone Number:</strong> {{ user.phone }}
+                    </div>
+                </section>
+                <!-- <button type="submit">Update Profile</button> -->
+            {% endif %}
         </div>
 
     </div>

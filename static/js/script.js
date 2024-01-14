@@ -200,8 +200,12 @@ function signup() {
 }
 
 // onclick for login button
-function login() {
-    window.location.href = "/login";
+function farmer_login() {
+    window.location.href = "/farmer_login";
+}
+
+function buyer_login() {
+    window.location.href = "/buyer_login";
 }
 
 $("#signup_form #submit").click(async function(event) {
@@ -219,7 +223,9 @@ $("#signup_form #submit").click(async function(event) {
         console.log(response);
         if (response.data.success) {
             if(response.data.category == "farmer") {
-                window.location.href = "/login";
+                window.location.href = "/farmer_login";
+            } else if (response.data.category == "customer") {
+                window.location.href = "/buyer_login";
             }
         } else {
             alert(response.data.message);
@@ -228,6 +234,27 @@ $("#signup_form #submit").click(async function(event) {
         console.log(error);
     });
 })
+
+$("#buyer_login #submit").click(async function(event) {
+    event.preventDefault();
+    var data = $("#buyer_login").serializeArray();
+    data = {
+        "data": data
+    }
+    console.log(data);
+    resp = await axios({
+        method: "POST",
+        url: baseUrl + "/buyer_login",
+        data: data
+    })
+    console.log(resp);
+    if(!resp.data.success) {
+        alert(resp.data.message);
+        $("#buyer_login").trigger("reset");
+    } else {
+        window.location.href = "/";
+    }
+});
 
 $("#farmer_login #submit").click(async function(event) {
     event.preventDefault();
@@ -238,7 +265,7 @@ $("#farmer_login #submit").click(async function(event) {
     console.log(data);
     resp = await axios({
         method: "POST",
-        url: baseUrl + "/login",
+        url: baseUrl + "/farmer_login",
         data: data
     })
     console.log(resp);
