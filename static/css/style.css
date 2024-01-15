@@ -586,21 +586,23 @@ button.add-to-cart-btn:hover {
     width: 80%;
     max-width: 600px; 
     overflow: auto; 
-    background-color: #fefefe;
+    background-color:rgba(255,255,255,0.8);
     padding: 20px;
     border: 1px solid #888;
     height: 70%;
   }
   
   /* Modal Content */
-  .modal-add-cart-content {
-    background-color: #fefefe;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-  }
-  
+  .modal-add-cart-content h5.modal-title {
+    color: #1A5D1A;
+    font-size: 1.3em;
+}
+
+.modal-add-cart-content .modal-content {
+    border-bottom: 1px solid #969595;
+    padding: 1em 0;
+}
+
   /* The Close Button */
   .modal-close {
     color: #aaa;
@@ -742,4 +744,7 @@ button.add-to-cart-btn:hover {
     text-align: right;
     font-weight: bold;
     margin-top: 20px;
+}
+.profile h1{
+    display: none;
 }
