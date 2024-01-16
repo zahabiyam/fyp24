@@ -16,6 +16,13 @@ body {
     margin: 0;
     padding: 0;
 }
+::-webkit-scrollbar{
+    width: 8px;
+}
+::-webkit-scrollbar-thumb{
+    background: #333;
+    border-radius: 5px;
+}
 .logo {
     position: absolute;
     margin-left: 10px;
@@ -675,7 +682,7 @@ button.add-to-cart-btn:hover {
 
 .single-item {
     display: inline-block;
-    width: 90%; /* Set width for each item */
+    width: 95%; /* Set width for each item */
     margin-right: 20px; /* Set margin between items */
     vertical-align: top;
     transition: transform 0.3s ease; /* Add transition for smooth slide effect */
