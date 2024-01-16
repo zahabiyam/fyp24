@@ -82,6 +82,7 @@ body {
 .profile-item:hover i,.profile-item:hover span {
     color: #ddd;
 }.search-container {
+    display: none;
     float: right;
     margin-top: 10px;
     margin-right: 20px;
@@ -674,7 +675,7 @@ button.add-to-cart-btn:hover {
 
 .single-item {
     display: inline-block;
-    width: 300px; /* Set width for each item */
+    width: 90%; /* Set width for each item */
     margin-right: 20px; /* Set margin between items */
     vertical-align: top;
     transition: transform 0.3s ease; /* Add transition for smooth slide effect */
@@ -683,6 +684,11 @@ button.add-to-cart-btn:hover {
 .checkout-form .form-column {
     flex: 1;
     padding: 0 10px;
+    max-width: 600px;
+    height: 600px;
+}
+.checkout-form .scroll{
+    overflow-x: scroll;
 }
 
 .checkout-form label {
@@ -747,4 +753,33 @@ button.add-to-cart-btn:hover {
 }
 .profile h1{
     display: none;
+}
+.profile {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.profile section.personal-info{
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+
+.profile button{
+    width: 20%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1A5D1A;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 40px;
+}
+
+.profile button:hover {
+background-color: #155512;
 }
