@@ -86,7 +86,7 @@
                         <strong>Total Deliveries:</strong> {{ user.farming_experience }}
                     </div>
                 </section>
-                <button type="submit">Update Profile</button>
+                <button id="farmer_prof_update">Update Profile</button>
             {% elif buyer_id %}
                 <h1>Your Profile</h1>
                 <section class="personal-info">
@@ -104,7 +104,7 @@
                         <strong>Phone Number:</strong> {{ user.phone }}
                     </div>
                 </section>
-                <!-- <button type="submit">Update Profile</button> -->
+                <button id="buyer_prof_update">Update Profile</button>
             {% endif %}
         </div>
 

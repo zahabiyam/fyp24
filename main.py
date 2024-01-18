@@ -39,9 +39,11 @@ def farmer_login():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM user_account WHERE username = %s AND password = %s", (user_data['username'], user_data['password']))
     user = cur.fetchone()
-    print(user)
+    f_user = cur.execute("SELECT * FROM user_account WHERE username = %s AND password = %s AND role = 'farmer'", (user_data['username'], user_data['password']))
     if not user:
         return jsonify({"success":False, "message":"Invalid username or password"})
+    if not f_user:
+        return jsonify({"success":False, "message":"You are not a farmer"})
     session['farmer_id'] = user[0]
     return jsonify({"success":True, "message":"Login successful", "category":user[3]})
 
@@ -57,9 +59,12 @@ def buyer_login():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM user_account WHERE username = %s AND password = %s", (user_data['username'], user_data['password']))
     user = cur.fetchone()
+    c_user = cur.execute("SELECT * FROM user_account WHERE username = %s AND password = %s AND role = 'customer'", (user_data['username'], user_data['password']))
     print(user)
     if not user:
         return jsonify({"success":False, "message":"Invalid username or password"})
+    if not c_user:
+        return jsonify({"success":False, "message":"You are not a buyer"})
     session['buyer_id'] = user[0]
     return jsonify({"success":True, "message":"Login successful", "category":user[3]})
 
@@ -153,12 +158,42 @@ def farmer():
 
 @app.route("/buyer", methods=['GET', 'POST'])
 def buyer():
-    return render_template('buyer.html')
+    if 'buyer_id' not in session.keys():
+        return redirect(url_for('farmer_login'))
+    buyer_id = session.get('buyer_id')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM buyer WHERE UserAccountID = %s", (buyer_id,))
+    user = cur.fetchone()
+    user = {
+        'name': user[1],
+        'location': user[2],
+        'phone': user[3],
+        'email': user[4],
+    } 
+    return render_template('buyer.html', user=user)
+
+@app.route("/buyer/update", methods=['GET', 'POST'])
+def buyer_update():
+    if 'buyer_id' not in session.keys():
+        return redirect(url_for('buyer_login'))
+    if request.method != 'POST':
+        return redirect(url_for('index'))
+    buyer_id = session.get('buyer_id')
+    data = request.get_json()['data']
+    user_data = {}
+    for i in data:
+        user_data[i['name']] = str(i['value'])
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE buyer SET NAME = %s, Location = %s, ContactPhone = %s, ContactEmail = %s WHERE UserAccountID = %s", (user_data['name'], user_data['address'], user_data['phone_number'], user_data['email'], buyer_id))
+    mysql.connection.commit()
+    mysql.connection.close()
+    return jsonify({"success":True, "message":"Profile updated successfully"})
+    # return render_template('buyer_update.html', user=user)
 
 @app.route("/checkout", methods=['GET', 'POST'])
 def checkout():
     if request.method != 'POST':
-        return render_template('checkout.html')
+        return redirect(url_for('index'))
     
     if 'farmer_id' not in session.keys() and 'buyer_id' not in session.keys():
         return redirect(url_for('farmer_login'))
@@ -170,8 +205,8 @@ def checkout():
 @app.route("/pinvoice", methods=['GET', 'POST'])
 def pinvoice():
 
-    if 'user_id' not in session.keys():
-        return redirect(url_for('login'))
+    if 'buyer_id' not in session.keys() and 'farmer_id' not in session.keys():
+        return redirect(url_for('farmer_login'))
     
     data = session.get("checkout_data")
     date = datetime.now().strftime("%d/%m/%Y")
@@ -185,9 +220,9 @@ def pinvoice():
 @app.route("/invoice", methods=['GET', 'POST'])
 def invoice():
     if request.method != 'POST':
-        return render_template('invoice.html')
-    if 'user_id' not in session.keys():
-        return redirect(url_for('login'))
+        return redirect(url_for('index'))
+    if 'buyer_id' not in session.keys() and 'farmer_id' not in session.keys():
+        return redirect(url_for('farmer_login'))
     data = request.get_json()['data']
     session["checkout_data"] = data
     return {

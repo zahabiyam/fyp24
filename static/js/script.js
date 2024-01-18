@@ -54,6 +54,34 @@ $(document).ready(function() {
         $("#lblCartCount").html(++cart_count);
     });
 });
+$(document).on("change", "#modal_add_cart_content input[type='number']", function() {
+    var product_id = $(this).parent().parent().attr("data-id");
+    var product_quantity = $(this).val();
+    var l_cart_count = 0;
+    productData.forEach((product) => {
+        if(product.id == product_id) {
+            product.quantity = product_quantity;
+        }
+        console.log(product.quantity);
+        l_cart_count +=  Number(product.quantity);
+    });
+    cart_count = l_cart_count;
+    $("#lblCartCount").html(cart_count);
+});
+
+$(document).on("click", "#modal_add_cart_content .product-close", function() {
+    var product_id = $(this).parent().attr("data-id");
+    var l_cart_count = 0;
+    productData.forEach((product) => {
+        if(product.id == product_id) {
+            product.quantity = 0;
+        }
+        l_cart_count +=  Number(product.quantity);
+    });
+    cart_count = l_cart_count;
+    $("#lblCartCount").html(cart_count);
+    $(this).parent().remove();
+});
 
 function add_to_cart(obj) {
     var product_id = obj.parentElement.querySelector(".product_id").value;
@@ -71,6 +99,9 @@ function add_to_cart(obj) {
         console.log("here");
         $("#myModal_add_to_cart #modal_add_cart_content").append(
             `<div class="modal-content" class="product_id_${product_id}" data-id="${product_id}">
+                <div class="product-close">
+                    <span class="modal-close">&times;</span>
+                </div>
                 <div class="modal-header">
                     <h5 class="modal-title">${product_title}</h5>
                 </div>
@@ -96,7 +127,7 @@ $(document).on("click", "#add_to_cart", function() {
     }
 });
 
-$(document).on("click", ".modal-close", function() {
+$(document).on("click", "#modal_add_cart_content > .modal-close", function() {
     if ($("#myModal_add_to_cart").hasClass("show")) {
         $("#myModal_add_to_cart").removeClass("show");
         $("#myModal_add_to_cart").addClass("hide");
@@ -256,7 +287,7 @@ $("#buyer_login #submit").click(async function(event) {
     }
 });
 
-$("#farmer_login #submit").click(async function(event) {
+$(document).on('click', "#farmer_login #submit", async function(event) {
     event.preventDefault();
     var data = $("#farmer_login").serializeArray();
     data = {
@@ -276,3 +307,36 @@ $("#farmer_login #submit").click(async function(event) {
         window.location.href = "/";
     }
 });
+
+$(document).on('click', "#buyer_prof_update", async function(event) {
+    event.preventDefault();
+    window.location.href = "/buyer";
+});
+
+$(document).on('click', "#farmer_prof_update", async function(event) {
+    event.preventDefault();
+    window.location.href = "/farmer";
+});
+
+$(document).on('click', "form#buyer_update #submit", async function(event) {
+    event.preventDefault();
+    var data = $("form#buyer_update").serializeArray();
+    data = {
+        "data": data
+    }
+    console.log(data);
+    resp = await axios({
+        method: "POST",
+        url: baseUrl + "/buyer/update",
+        data: data
+    })
+    console.log({resp});
+    if(!resp.data.success) {
+        alert(resp.data.message);
+        $("#buyer_update").trigger("reset");
+    } else {
+        alert(resp.data.message);
+        window.location.href = "/";
+    }
+});
+
