@@ -594,7 +594,7 @@ button.add-to-cart-btn:hover {
     width: 80%;
     max-width: 600px; 
     overflow: auto; 
-    background-color:rgba(255,255,255,0.8);
+    background-color:rgba(255,255,255,0.9);
     padding: 20px;
     border: 1px solid #888;
     height: 70%;
