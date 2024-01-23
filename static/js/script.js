@@ -200,28 +200,14 @@ $(document).on("click", "#customer_checkout #ch_submit", function() {
     console.log(data);
     axios({
         method: "POST",
-        url: baseUrl + "/invoice",
+        url: baseUrl + "/pinvoice",
         data: {"data": data}
     }).then((response) => {
         if(response.data.success) {
-            window.location.href = "/pinvoice";
+            window.location.href = "/invoice";
         }
     }).catch((error) => {
         console.log(error);
-    });
-});
-
-document.getElementById('searchInput').addEventListener('keyup', function() {
-    const searchTerm = this.value.toLowerCase();
-    const productCards = document.querySelectorAll('.product-card');
-    
-    productCards.forEach(card => {
-        const title = card.querySelector('.product-title').textContent.toLowerCase();
-        if (title.includes(searchTerm)) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
     });
 });
 

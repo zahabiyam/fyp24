@@ -83,6 +83,7 @@ def profile():
     buyer_id = session.get('buyer_id')
     
     cur = mysql.connection.cursor()
+    profile_type = ""
     if farmer_id:
         cur.execute("SELECT * FROM farmer WHERE UserAccountID = %s", (farmer_id,))
         user = cur.fetchone()
@@ -94,6 +95,7 @@ def profile():
             'farm_size': user[5],
             'farming_experience': user[6]
         }
+        profile_type = "Farmer"
     elif buyer_id:
         cur.execute("SELECT * FROM buyer WHERE UserAccountID = %s", (buyer_id,))
         user = cur.fetchone()
@@ -103,9 +105,10 @@ def profile():
             'phone': user[3],
             'email': user[4],
         }
+        profile_type = "Buyer"
     print(user)
     
-    return render_template('profile.html', user=user, farmer_id=farmer_id, buyer_id=buyer_id)
+    return render_template('profile.html', user=user, farmer_id=farmer_id, buyer_id=buyer_id, profile_type=profile_type)
 
 @app.route('/signup_farmer',methods=["GET","POST"])
 def signup_farmer():
@@ -186,7 +189,6 @@ def buyer_update():
     cur = mysql.connection.cursor()
     cur.execute("UPDATE buyer SET NAME = %s, Location = %s, ContactPhone = %s, ContactEmail = %s WHERE UserAccountID = %s", (user_data['name'], user_data['address'], user_data['phone_number'], user_data['email'], buyer_id))
     mysql.connection.commit()
-    mysql.connection.close()
     return jsonify({"success":True, "message":"Profile updated successfully"})
     # return render_template('buyer_update.html', user=user)
 
@@ -202,8 +204,8 @@ def checkout():
     print(data)
     return render_template('checkout.html', data=data)
 
-@app.route("/pinvoice", methods=['GET', 'POST'])
-def pinvoice():
+@app.route("/invoice", methods=['GET', 'POST'])
+def invoice():
 
     if 'buyer_id' not in session.keys() and 'farmer_id' not in session.keys():
         return redirect(url_for('farmer_login'))
@@ -217,8 +219,8 @@ def pinvoice():
     print(data)
     return render_template('invoice.html', data=data)
 
-@app.route("/invoice", methods=['GET', 'POST'])
-def invoice():
+@app.route("/pinvoice", methods=['GET', 'POST'])
+def pinvoice():
     if request.method != 'POST':
         return redirect(url_for('index'))
     if 'buyer_id' not in session.keys() and 'farmer_id' not in session.keys():
