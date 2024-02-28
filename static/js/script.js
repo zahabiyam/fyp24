@@ -1,55 +1,56 @@
 var baseUrl = new URL(window.location.href);
 baseUrl = `${baseUrl.protocol}//${baseUrl.hostname}:${baseUrl.port}`;
 var cart_count = 0;
-var productData = [
-    {
-        "id": 1,
-        "url": "../static/images/mangoes.jpg",
-        "product-title": "Mangoes",
-        "product-description": "Enjoy the sweet, tropical delight of our fresh mangoes. Bursting with juicy goodness, each bite takes you on a journey to sun-kissed orchards.",
-        "product-price": "Rs. 100/- per kg",
-        "quantity": 0
-    },
-    {
-        "id": 2,
-        "url": "../static/images/Carrot.jpg",
-        "product-title": "Carrots",
-        "product-description": "Crisp and versatile, our carrots are nature's snack. From salads to smoothies, these vibrant veggies add a healthy crunch to your meals.",
-        "product-price": "Rs. 150/- per kg",
-        "quantity": 0
-    },
-    {
-        "id": 3,
-        "url": "../static/images/Carrot.jpg",
-        "product-title": "Carrots",
-        "product-description": "Crisp and versatile, our carrots are nature's snack. From salads to smoothies, these vibrant veggies add a healthy crunch to your meals.",
-        "product-price": "Rs. 150/- per kg",
-        "quantity": 0
-    },
-    {
-        "id": 4,
-        "url": "../static/images/Carrot.jpg",
-        "product-title": "Carrots",
-        "product-description": "Crisp and versatile, our carrots are nature's snack. From salads to smoothies, these vibrant veggies add a healthy crunch to your meals.",
-        "product-price": "Rs. 150/- per kg",
-        "quantity": 0
-    }
-];
+var productData = [];
+// var productData = [
+//     {
+//         "id": 1,
+//         "url": "../static/images/mangoes.jpg",
+//         "product-title": "Mangoes",
+//         "product-description": "Enjoy the sweet, tropical delight of our fresh mangoes. Bursting with juicy goodness, each bite takes you on a journey to sun-kissed orchards.",
+//         "product-price": "Rs. 100/- per kg",
+//         "quantity": 0
+//     },
+//     {
+//         "id": 2,
+//         "url": "../static/images/Carrot.jpg",
+//         "product-title": "Carrots",
+//         "product-description": "Crisp and versatile, our carrots are nature's snack. From salads to smoothies, these vibrant veggies add a healthy crunch to your meals.",
+//         "product-price": "Rs. 150/- per kg",
+//         "quantity": 0
+//     },
+//     {
+//         "id": 3,
+//         "url": "../static/images/Carrot.jpg",
+//         "product-title": "Carrots",
+//         "product-description": "Crisp and versatile, our carrots are nature's snack. From salads to smoothies, these vibrant veggies add a healthy crunch to your meals.",
+//         "product-price": "Rs. 150/- per kg",
+//         "quantity": 0
+//     },
+//     {
+//         "id": 4,
+//         "url": "../static/images/Carrot.jpg",
+//         "product-title": "Carrots",
+//         "product-description": "Crisp and versatile, our carrots are nature's snack. From salads to smoothies, these vibrant veggies add a healthy crunch to your meals.",
+//         "product-price": "Rs. 150/- per kg",
+//         "quantity": 0
+//     }
+// ];
 
 $(document).ready(function() {
-    var products = $("#products");
-    productData.forEach((product) => {
-        products.append(
-            `<div class="product-card">
-                    <img src="${product.url}" alt="product-image" class="product-image">
-                    <h2 class="product-title">${product["product-title"]}</h2>
-                    <p class="product-description">${product["product-description"]}</p>
-                    <p class="product-price">${product["product-price"]}</p>
-                    <button class="add-to-cart-btn" onclick="add_to_cart(this)" type="button">Add to Cart</button>
-                    <input type="hidden" name="product_id" class="product_id" value="${product['id']}">
-            </div>`
-        );
-    });
+    // var products = $("#products");
+    // productData.forEach((product) => {
+    //     products.append(
+    //         `<div class="product-card">
+    //                 <img src="${product.url}" alt="product-image" class="product-image">
+    //                 <h2 class="product-title">${product["product-title"]}</h2>
+    //                 <p class="product-description">${product["product-description"]}</p>
+    //                 <p class="product-price">${product["product-price"]}</p>
+    //                 <button class="add-to-cart-btn" onclick="add_to_cart(this)" type="button">Add to Cart</button>
+    //                 <input type="hidden" name="product_id" class="product_id" value="${product['id']}">
+    //         </div>`
+    //     );
+    // });
     $(".add-to-cart-btn").click(function() {
         $("#lblCartCount").html(++cart_count);
     });
@@ -58,27 +59,32 @@ $(document).on("change", "#modal_add_cart_content input[type='number']", functio
     var product_id = $(this).parent().parent().attr("data-id");
     var product_quantity = $(this).val();
     var l_cart_count = 0;
-    productData.forEach((product) => {
-        if(product.id == product_id) {
-            product.quantity = product_quantity;
-        }
-        console.log(product.quantity);
-        l_cart_count +=  Number(product.quantity);
+    $(this).parent().parent().parent().find(".quantity").each(function() {
+        l_cart_count += Number($(this).val());
     });
+
+    // var l_cart_count = 0;
+    // productData.forEach((product) => {
+    //     if(product.id == product_id) {
+    //         product.quantity = product_quantity;
+    //     }
+    //     console.log(product.quantity);
+    //     l_cart_count +=  Number(product.quantity);
+    // });
     cart_count = l_cart_count;
     $("#lblCartCount").html(cart_count);
 });
 
 $(document).on("click", "#modal_add_cart_content .product-close", function() {
     var product_id = $(this).parent().attr("data-id");
-    var l_cart_count = 0;
-    productData.forEach((product) => {
-        if(product.id == product_id) {
-            product.quantity = 0;
-        }
-        l_cart_count +=  Number(product.quantity);
-    });
-    cart_count = l_cart_count;
+    var l_cart_count = $(this).parent().find(".quantity");
+    // productData.forEach((product) => {
+    //     if(product.id == product_id) {
+    //         product.quantity = 0;
+    //     }
+    //     l_cart_count +=  Number(product.quantity);
+    // });
+    cart_count -= l_cart_count;
     $("#lblCartCount").html(cart_count);
     $(this).parent().remove();
 });
@@ -87,16 +93,14 @@ function add_to_cart(obj) {
     var product_id = obj.parentElement.querySelector(".product_id").value;
     var product_title = obj.parentElement.querySelector(".product-title").textContent;
     var product_price = obj.parentElement.querySelector(".product-price").textContent;
-    var curr_product_quantity = 1;
-    productData.forEach((product) => {
-        if(product.id == product_id) {
-            product.quantity += 1;
-            curr_product_quantity = product.quantity;
-        }
-    });
+    var curr_product_quantity = obj.parentElement.querySelector(".product-quantity").value;
+    curr_product_quantity = Number(curr_product_quantity) + 1;
+
+
+    obj.parentElement.querySelector(".product-quantity").value = curr_product_quantity;
+    
 
     if(($("#modal_add_cart_content").children().length == 1) || ($("#myModal_add_to_cart #modal_add_cart_content .modal-content[data-id='" + product_id + "']").length == 0) ) {
-        console.log("here");
         $("#myModal_add_to_cart #modal_add_cart_content").append(
             `<div class="modal-content" class="product_id_${product_id}" data-id="${product_id}">
                 <div class="product-close">

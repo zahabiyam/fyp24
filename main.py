@@ -148,10 +148,12 @@ def signup_farmer():
 
 @app.route("/products", methods=['GET', 'POST'])
 def products():
-    user_id = session.get('user_id')
     farmer_id = session.get('farmer_id')
     buyer_id = session.get('buyer_id')
-    return render_template('product.html', farmer_id=farmer_id, buyer_id=buyer_id)
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM product")
+    products = cur.fetchall()
+    return render_template('product.html', products=products, farmer_id=farmer_id, buyer_id=buyer_id)
 
 @app.route("/farmer", methods=['GET', 'POST'])
 def farmer():
@@ -198,7 +200,28 @@ def file_upload():
     file_url = "static/uploads/"+filename
     attachment_file.save("static/uploads/"+filename)
     return jsonify({"success":True, "message":"File uploaded successfully", "file_url":file_url})
+
+@app.route("/product_update", methods=['GET', 'POST'])
+def product_update():
+    if 'farmer_id' not in session.keys():
+        return redirect(url_for('farmer_login'))
     
+    if request.method != 'POST':
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM product WHERE FarmerID = %s", (session.get('farmer_id'),))
+        products = cur.fetchall()
+        return render_template('product_update.html', products=products)
+    
+    data = request.get_json()['data']
+    user_data = {}
+    for i in data:
+        user_data[i['name']] = str(i['value'])
+    farmer_id = session.get('farmer_id')
+    print(user_data)
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE product SET Name = %s, image_url = %s, Description = %s, Category = %s, Price = %s, QuantityAvailable = %s WHERE FarmerID = %s", (user_data['product_name'], user_data['product_image_url'], user_data['product_description'], '', int(user_data['product_price']), int(user_data['product_quantity']), int(farmer_id)))
+    mysql.connection.commit()
+    return jsonify({"success":True, "message":"Product updated successfully"})
 
 @app.route("/product_add", methods=['GET', 'POST'])
 def product_add():
