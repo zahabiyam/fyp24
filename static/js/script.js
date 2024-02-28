@@ -304,6 +304,47 @@ $(document).on('click', "#farmer_prof_update", async function(event) {
     window.location.href = "/farmer";
 });
 
+$(document).on("change", "#product_image", function() {
+    console.log("Here");
+    var file = this.files[0];
+    var formData = new FormData();
+    formData.append("file", file);
+    axios({
+        method: "POST",
+        url: baseUrl + "/file_upload",
+        data: formData
+    }).then((response) => {
+        console.log(response);
+        if(response.data.success) {
+            $("#product_image_url").val(response.data.file_url);
+        }
+    }).catch((error) => {
+        console.log(error);
+    });
+});
+
+$(document).on("click", "#product_add #submit", async function(event) {
+    event.preventDefault();
+    var data = $("#product_add").serializeArray();
+    data = {
+        "data": data
+    }
+    console.log(data);
+    resp = await axios({
+        method: "POST",
+        url: baseUrl + "/product_add",
+        data: data
+    });
+    console.log(resp);
+    if(!resp.data.success) {
+        alert(resp.data.message);
+        $("#product_add").trigger("reset");
+    } else {
+        alert(resp.data.message);
+        window.location.href = "/products";
+    }
+});
+
 $(document).on('click', "form#buyer_update #submit", async function(event) {
     event.preventDefault();
     var data = $("form#buyer_update").serializeArray();

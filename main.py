@@ -4,8 +4,6 @@ from config import app, mysql
 from datetime import datetime
 import random
 
-#################### UPDATED TO CHECK PULL PUSH GIT ###############
-############ Second Check ############
 ######### VIEW FUNCTIONS ##########
 
 to_reload = False
@@ -192,13 +190,42 @@ def buyer_update():
     return jsonify({"success":True, "message":"Profile updated successfully"})
     # return render_template('buyer_update.html', user=user)
 
+@app.route("/file_upload", methods=['GET', 'POST'])
+def file_upload():
+    print("here")
+    attachment_file = request.files.get("file")
+    filename = attachment_file.filename
+    file_url = "static/uploads/"+filename
+    attachment_file.save("static/uploads/"+filename)
+    return jsonify({"success":True, "message":"File uploaded successfully", "file_url":file_url})
+    
+
+@app.route("/product_add", methods=['GET', 'POST'])
+def product_add():
+    if request.method == 'POST':
+        data = request.get_json()['data']
+        user_data = {}
+        for i in data:
+            user_data[i['name']] = str(i['value'])
+        farmer_id = session.get('farmer_id')
+        print(user_data)
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO product (Name, image_url, Description, Category, Price, QuantityAvailable, FarmerID) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user_data['product_name'], user_data['product_image_url'], user_data['product_description'], '', int(user_data['product_price']), int(user_data['product_quantity']), int(farmer_id)))
+        mysql.connection.commit()
+        return jsonify({"success":True, "message":"Product added successfully"})
+
+    if 'farmer_id' not in session.keys():
+        return redirect(url_for('farmer_login'))
+    farmer_id = session.get('farmer_id')
+    return render_template('product_add.html', farmer_id=farmer_id)
+
 @app.route("/checkout", methods=['GET', 'POST'])
 def checkout():
     if request.method != 'POST':
         return redirect(url_for('index'))
     
-    if 'farmer_id' not in session.keys() and 'buyer_id' not in session.keys():
-        return redirect(url_for('farmer_login'))
+    if 'buyer_id' not in session.keys():
+        return redirect(url_for('buyer_login'))
     
     data = request.get_json()['data']
     print(data)
