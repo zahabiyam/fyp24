@@ -153,7 +153,19 @@ def products():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM product")
     products = cur.fetchall()
-    return render_template('product.html', products=products, farmer_id=farmer_id, buyer_id=buyer_id)
+    product_data = []
+    for i in products:
+        product_data.append({
+            'id': i[0],
+            'name': i[1],
+            'image_url': i[2],
+            'description': i[3],
+            'category': i[4],
+            'price': i[5],
+            'quantity': i[6],
+            'farmer_id': i[7]
+        })
+    return render_template('product.html', products=product_data, farmer_id=farmer_id, buyer_id=buyer_id)
 
 @app.route("/farmer", methods=['GET', 'POST'])
 def farmer():
