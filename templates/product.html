@@ -22,7 +22,7 @@
 </head>
 
 <body>
-   <div class="mobile-navbar">
+   <!-- <div class="mobile-navbar">
         <div class="menu-toggle" id="mobile-menu">
             <span></span>
             <span></span>
@@ -42,7 +42,7 @@
                 <span>Want to become a Farmer or Customer?</span>
             </a>
         </div>
-    </div>
+    </div> -->
     <div class="navbar">
         <div class="list">
         <a href="{{ url_for('index') }}">Home</a>
@@ -90,11 +90,11 @@
         <div id="products">
             {% for product in products %}
                 <div class="product-card">
-                    <img src="{{ product.image_url }}" alt="">
+                    <img src="{{ product.image_url }}" class="product-url" alt="">
                     <h2 class="product-title">{{product.name}}</h2>
                     <p class="product-description">{{product.description}}</p>
                     <p class="product-price">{{product.price}}</p>
-                    <button type="button" class="btn btn-primary" class="add-to-cart-btn" onclick="add_to_cart(this)">Add to Cart</button>
+                    <button type="button" class="btn btn-primary add-to-cart-btn" onclick="add_to_cart(this)">Add to Cart</button>
                     <input type="hidden" class="product_id" name="product_id" value="{{product.id}}">
                     <input type="hidden" class="product-quantity" name="product_quantity" value="0">
                 </div>

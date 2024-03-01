@@ -165,6 +165,7 @@ def products():
             'quantity': i[6],
             'farmer_id': i[7]
         })
+    print(product_data, buyer_id)
     return render_template('product.html', products=product_data, farmer_id=farmer_id, buyer_id=buyer_id)
 
 @app.route("/farmer", methods=['GET', 'POST'])

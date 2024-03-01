@@ -2,55 +2,8 @@ var baseUrl = new URL(window.location.href);
 baseUrl = `${baseUrl.protocol}//${baseUrl.hostname}:${baseUrl.port}`;
 var cart_count = 0;
 var productData = [];
-// var productData = [
-//     {
-//         "id": 1,
-//         "url": "../static/images/mangoes.jpg",
-//         "product-title": "Mangoes",
-//         "product-description": "Enjoy the sweet, tropical delight of our fresh mangoes. Bursting with juicy goodness, each bite takes you on a journey to sun-kissed orchards.",
-//         "product-price": "Rs. 100/- per kg",
-//         "quantity": 0
-//     },
-//     {
-//         "id": 2,
-//         "url": "../static/images/Carrot.jpg",
-//         "product-title": "Carrots",
-//         "product-description": "Crisp and versatile, our carrots are nature's snack. From salads to smoothies, these vibrant veggies add a healthy crunch to your meals.",
-//         "product-price": "Rs. 150/- per kg",
-//         "quantity": 0
-//     },
-//     {
-//         "id": 3,
-//         "url": "../static/images/Carrot.jpg",
-//         "product-title": "Carrots",
-//         "product-description": "Crisp and versatile, our carrots are nature's snack. From salads to smoothies, these vibrant veggies add a healthy crunch to your meals.",
-//         "product-price": "Rs. 150/- per kg",
-//         "quantity": 0
-//     },
-//     {
-//         "id": 4,
-//         "url": "../static/images/Carrot.jpg",
-//         "product-title": "Carrots",
-//         "product-description": "Crisp and versatile, our carrots are nature's snack. From salads to smoothies, these vibrant veggies add a healthy crunch to your meals.",
-//         "product-price": "Rs. 150/- per kg",
-//         "quantity": 0
-//     }
-// ];
 
 $(document).ready(function() {
-    // var products = $("#products");
-    // productData.forEach((product) => {
-    //     products.append(
-    //         `<div class="product-card">
-    //                 <img src="${product.url}" alt="product-image" class="product-image">
-    //                 <h2 class="product-title">${product["product-title"]}</h2>
-    //                 <p class="product-description">${product["product-description"]}</p>
-    //                 <p class="product-price">${product["product-price"]}</p>
-    //                 <button class="add-to-cart-btn" onclick="add_to_cart(this)" type="button">Add to Cart</button>
-    //                 <input type="hidden" name="product_id" class="product_id" value="${product['id']}">
-    //         </div>`
-    //     );
-    // });
     $(".add-to-cart-btn").click(function() {
         $("#lblCartCount").html(++cart_count);
     });
@@ -62,28 +15,15 @@ $(document).on("change", "#modal_add_cart_content input[type='number']", functio
     $(this).parent().parent().parent().find(".quantity").each(function() {
         l_cart_count += Number($(this).val());
     });
-
-    // var l_cart_count = 0;
-    // productData.forEach((product) => {
-    //     if(product.id == product_id) {
-    //         product.quantity = product_quantity;
-    //     }
-    //     console.log(product.quantity);
-    //     l_cart_count +=  Number(product.quantity);
-    // });
     cart_count = l_cart_count;
     $("#lblCartCount").html(cart_count);
 });
 
 $(document).on("click", "#modal_add_cart_content .product-close", function() {
     var product_id = $(this).parent().attr("data-id");
-    var l_cart_count = $(this).parent().find(".quantity");
-    // productData.forEach((product) => {
-    //     if(product.id == product_id) {
-    //         product.quantity = 0;
-    //     }
-    //     l_cart_count +=  Number(product.quantity);
-    // });
+    var l_cart_count = $(this).parent().find(".quantity").val();
+
+    console.log(l_cart_count, cart_count);
     cart_count -= l_cart_count;
     $("#lblCartCount").html(cart_count);
     $(this).parent().remove();
@@ -141,17 +81,17 @@ $(document).on("click", "#modal_add_cart_content > .modal-close", function() {
 
 $(document).on("click", "#checkout", function() {
     var checkout_data = [];
-    for(let i=0; i<productData.length; i++) {
-        if(productData[i].quantity > 0) {
+    $(".product-card").each(function() {
+        if($(this).find(".product-quantity").val() > 0) {
             checkout_data.push({
-                "product_id": productData[i].id,
-                "product_title": productData[i]["product-title"],
-                "product_price": productData[i]["product-price"],
-                "product_url": productData[i].url,       
-                "quantity": productData[i].quantity
+                "product_id": $(this).find(".product_id").val(),
+                "product_title": $(this).find(".product-title").text(),
+                "product_price": $(this).find(".product-price").text(),
+                "product_url": $(this).find(".product-url").attr("src"),
+                "quantity": $(this).find(".product-quantity").val()
             });
         }
-    }
+    });
     console.log({checkout_data});
     axios({
         method: "POST",
