@@ -1,0 +1,22 @@
+{% extends "farmer_base.html" %}
+{% block farmer_base %}
+    <div class="container">
+        <h2>Let's Chat!</h2>
+        <div class="chat-interface">
+            <div class="sessions">
+                <input type="text" placeholder="Search... Sessions">
+                <div class="session-item active">Lorem Ipsum</div>
+                <div class="session-item">Lorem Ipsum</div>
+                <!-- Add more session items as needed -->
+            </div>
+            <div class="chat-setting">
+                <div class="message received">Lorem ipsum?</div>
+                <div class="message sent">Lorem ipsum dolor sit amet.</div>
+                <!-- Add more chat messages here -->
+                <div class="chat-input">
+                    <input type="text" placeholder="Type your message here">
+                    <button>Send</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
