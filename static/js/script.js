@@ -314,3 +314,8 @@ $(document).on('click', "form#buyer_update #submit", async function(event) {
 document.getElementById('mobile-menu').addEventListener('click', function() {
     document.querySelector('.menu-items').classList.toggle('show');
 });
+
+$(".chat-btn, #ai_side_close",).click(function() {
+    // Toggle the panel visibility
+    $(".ai_side_panel").toggleClass("AIpanel-visible");
+});

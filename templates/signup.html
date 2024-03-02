@@ -1,44 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farmer's Friend</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css') }}/style.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css') }}/resize.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon') }}/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon') }}/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon') }}/favicon-16x16.png">
-    <link rel="manifest" href="{{ url_for('static', filename='favicon') }}/site.webmanifest">
-    <link rel="mask-icon" href="{{ url_for('static', filename='favicon') }}/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-    <div class="logo">
-        <img src="{{ url_for('static', filename='images') }}/logo.png" alt="Your Logo">
-    </div>
-</head>
-
-<body>
-    <div class="navbar">
-        <div class="list">
-        <a href="{{ url_for('index') }}">Home</a>
-        <a href="{{ url_for('products') }}">Products</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact</a>
-        </div>
-        <div class="search-container">
-            <input type="text" placeholder="Search" class="search-bar" id="searchInput">
-        </div>
-        <div class="profile-icons">
-            <div class="profile-item">
-                <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
-                <span>Want to become a Farmer or Customer?</span></a>
-            </div>
-        </div>
-    </div>
+{% extends "farmer_base.html" %}
+{% block farmer_base %}
     <div class="container" id="no-padding">
         <div class="add-to-cart">
             <button><i class="fa fa-shopping-cart"></i></button>
@@ -82,9 +43,4 @@
             </div>    
         </div>
     </div>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-<script src="{{ url_for('static', filename='js') }}/script.js"></script>
-</html>
+{% endblock %}

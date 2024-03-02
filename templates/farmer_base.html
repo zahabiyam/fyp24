@@ -19,9 +19,31 @@
     <div class="logo">
         <img src="{{ url_for('static', filename='images') }}/logo.png" alt="Your Logo">
     </div>
+    {% block base_stylesheet %}{% endblock %}
 </head>
 
 <body>
+    <div class="mobile-navbar">
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu-items">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('products') }}">Products</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <div class="profile-item">
+            <a href="{{ url_for('farmer_login') }}"><i class="fas fa-store"></i>
+                <span>Farmer Login</span></a>
+            <a href="{{ url_for('buyer_login') }}"><i class="fas fa-store"></i>
+                    <span>Buyer Login</span></a>
+            <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
+                        <span>Want to become a Farmer or Customer?</span></a>
+                </div>
+        </div>
+    </div>
     <div class="navbar">
         <div class="list">
         <a href="{{ url_for('index') }}">Home</a>
@@ -33,39 +55,36 @@
             <input type="text" placeholder="Search" class="search-bar" id="searchInput">
         </div>
         <div class="profile-icons">
-            <div class="profile-item">
-                <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
-                <span>Want to become a Farmer or Customer?</span></a>
-            </div>
+            {% if farmer_id or buyer_id %}
+                <div class="profile-item">
+                    <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i>
+                    <span>Profile</span></a>
+                </div>
+                <div class="profile-item">
+                    <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span></a>
+                </div>
+            {% else %}
+                <div class="profile-item">
+                    <a href="{{ url_for('farmer_login') }}"><i class="fas fa-store"></i>
+                    <span>Farmer Login</span></a>
+                </div>
+                <div class="profile-item">
+                    <a href="{{ url_for('buyer_login') }}"><i class="fas fa-store"></i>
+                    <span>Buyer Login</span></a>
+                </div>
+                <div class="profile-item">
+                    <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
+                    <span>Want to become a Farmer or Customer?</span></a>
+                </div>
+            {% endif %}
         </div>
     </div>
-    <div class="container" id="no-padding">
-        <div class="add-to-cart">
-            <button><i class="fa fa-shopping-cart"></i></button>
-        </div>
-        <div class="login-container" id="giveheight">
-            <div class="login-form col-8">
-                <h2>Login To Your Account</h2>
-                <h3>Stay Updated On Your Professional Work</h3>
-                <form id = "buyer_login" method="POST">
-                    <div class="form-group">
-                        <input type="text" id="username" placeholder="Enter Your Name" name="username" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Enter Password" id="password" name="password" required>
-                    </div>
-                    <div class="center-btn">
-                        <button type="button" id="submit">Login</button>
-                    </div>
-                </form>
-            </div>
-            <div class="info col-4">
-                <h2>New Here?</h2>
-                <p>Sign up and discover a great amount of new opportunities!</p>
-                <button class="signup-button" onclick="signup()">Sign Up</button>
-            </div>    
-        </div>
+    {% block farmer_base %}
+    {% endblock %}
+    <div class="copyright"><p>SiteBy: farmers Friend</p></div>
     </div>
+    <div class="footer"></div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -1,84 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "farmer_base.html" %}
+{% block base_stylesheet %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farmer's Friend</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css') }}/style.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css') }}/resize.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon') }}/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon') }}/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon') }}/favicon-16x16.png">
-    <!-- <link rel="manifest" href="{{ url_for('static', filename='favicon') }}/site.webmanifest"> -->
-    <link rel="mask-icon" href="{{ url_for('static', filename='favicon') }}/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-    <div class="logo">
-        <img src="{{ url_for('static', filename='images') }}/logo.png" alt="Your Logo">
-    </div>
-</head>
-
-<body>
-   <!-- <div class="mobile-navbar">
-        <div class="menu-toggle" id="mobile-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="menu-items">
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('products') }}">Products</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
-            <div class="profile-item">
-            <a href="{{ url_for('farmer_login') }}"><i class="fas fa-store"></i>
-                <span>Farmer Login</span></a>
-            <a href="{{ url_for('buyer_login') }}"><i class="fas fa-store"></i>
-                    <span>Buyer Login</span></a>
-            <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
-                <span>Want to become a Farmer or Customer?</span>
-            </a>
-        </div>
-    </div> -->
-    <div class="navbar">
-        <div class="list">
-        <a href="{{ url_for('index') }}">Home</a>
-        <a href="{{ url_for('products') }}">Products</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact</a>
-        </div>
-        <div class="search-container">
-            <input type="text" placeholder="Search" class="search-bar" id="searchInput">
-        </div>
-        <div class="profile-icons">
-            {% if farmer_id or buyer_id %}
-                <div class="profile-item">
-                    <a href="{{ url_for('profile') }}" data-farmer_id = '{{ farmer_id if farmer_id else 0 }}' data-buyer_id = '{{ buyer_id if buyer_id else 0 }}'><i class="fas fa-user-circle"></i>
-                    <span>Profile</span></a>
-                </div>
-                <div class="profile-item">
-                    <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span></a>
-                </div>
-            {% else %}
-            <div class="profile-item">
-                <a href="{{ url_for('farmer_login') }}"><i class="fas fa-store"></i>
-                <span>Farmer Login</span></a>
-            </div>
-            <div class="profile-item">
-                <a href="{{ url_for('buyer_login') }}"><i class="fas fa-store"></i>
-                <span>Buyer Login</span></a>
-            </div>
-            <div class="profile-item">
-                <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
-                <span>Want to become a Farmer or Customer?</span></a>
-            </div>
-            {% endif %}
-        </div>
-    </div>
+{% block farmer_base %}
     <div class="productbanner">
     </div>
     <div class="container">
@@ -94,7 +19,8 @@
                     <h2 class="product-title">{{product.name}}</h2>
                     <p class="product-description">{{product.description}}</p>
                     <p class="product-price">{{product.price}}</p>
-                    <button type="button" class="btn btn-primary add-to-cart-btn" onclick="add_to_cart(this)">Add to Cart</button>
+                    <button type="button" class="btn add-to-cart-btn" onclick="add_to_cart(this)">Add to Cart</button>
+                    <button type="button" class="btn chat-btn" onclick="chat(this)">Chat</button>
                     <input type="hidden" class="product_id" name="product_id" value="{{product.id}}">
                     <input type="hidden" class="product-quantity" name="product_quantity" value="0">
                 </div>
@@ -108,10 +34,39 @@
             </div>
             <button type="button" class="btn btn-primary" id="checkout">Checkout</button>
         </div>
+        <div id="ai_side_panel" class="ai_side_panel">
+            <div class="mainChater">
+                <div class="headerDet border-bottom">
+                    <div class="chatDety">
+                        <div class="nameC">
+                            <p class="roomTitle m-2" id="titleFirst">AI Content</p>
+                        </div>
+                    </div>
+                    <div class="tools">
+                        <button id="ai_side_close" tooltip="Room Settings" flow="left" class="btn"><i
+                                class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="blackout"></div>
+                <div class="changeW chatArea px-3">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="bardai" role="tabpanel">
+                            <div class="chatMessages mx-2">
+                            </div>
+                            <div class="content_loader">
+                                <img src="{{ url_for('static', filename='images') }}/typing1.gif" alt="">
+                            </div>
+							<div class="messageBox">
+								<div class="textA"><textarea id="message" name="message" rows="1" cols="30"
+										placeholder="Ask me anything...." class="border shadow-none"></textarea></div>
+								<button id="send" class="border button-s1 m-0 shadow-none" tooltip="Send" flow="left"
+									style="background: #c0c0c0;"><i class="fa fa-3 fa-arrow-up-from-bracket"
+										aria-hidden="true"></i></button>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-<script src="{{ url_for('static', filename='js') }}/script.js"></script>
-</html>
+{% endblock %}

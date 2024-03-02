@@ -28,7 +28,7 @@ def logout():
 @app.route('/farmer_login',methods=['GET','POST'])
 def farmer_login():
     if request.method != 'POST':
-        return render_template('farmer_login.html')
+        return render_template('farmer/farmer_login.html')
     
     data = request.get_json()['data']
     user_data = {}
@@ -48,7 +48,7 @@ def farmer_login():
 @app.route('/buyer_login',methods=['GET','POST'])
 def buyer_login():
     if request.method != 'POST':
-        return render_template('buyer_login.html')
+        return render_template('customer/buyer_login.html')
     
     data = request.get_json()['data']
     user_data = {}
@@ -170,7 +170,7 @@ def products():
 
 @app.route("/farmer", methods=['GET', 'POST'])
 def farmer():
-    return render_template('farmer.html')
+    return render_template('farmer/farmer.html')
 
 @app.route("/buyer", methods=['GET', 'POST'])
 def buyer():
@@ -186,7 +186,7 @@ def buyer():
         'phone': user[3],
         'email': user[4],
     } 
-    return render_template('buyer.html', user=user)
+    return render_template('buyer/buyer.html', user=user)
 
 @app.route("/buyer/update", methods=['GET', 'POST'])
 def buyer_update():
@@ -235,7 +235,7 @@ def product_update():
     # cur.execute("UPDATE product SET Name = %s, image_url = %s, Description = %s, Category = %s, Price = %s, QuantityAvailable = %s WHERE FarmerID = %s", (user_data['product_name'], user_data['product_image_url'], user_data['product_description'], '', int(user_data['product_price']), int(user_data['product_quantity']), int(farmer_id)))
     # mysql.connection.commit()
     # return jsonify({"success":True, "message":"Product updated successfully"})
-    return render_template('product_update.html')
+    return render_template('farmer/product_update.html')
 
 @app.route("/product_add", methods=['GET', 'POST'])
 def product_add():
@@ -254,7 +254,7 @@ def product_add():
     if 'farmer_id' not in session.keys():
         return redirect(url_for('farmer_login'))
     farmer_id = session.get('farmer_id')
-    return render_template('product_add.html', farmer_id=farmer_id)
+    return render_template('farmer/product_add.html', farmer_id=farmer_id)
 
 @app.route("/checkout", methods=['GET', 'POST'])
 def checkout():
@@ -266,7 +266,7 @@ def checkout():
     
     data = request.get_json()['data']
     print(data)
-    return render_template('checkout.html', data=data)
+    return render_template('buyer/checkout.html', data=data)
 
 @app.route("/invoice", methods=['GET', 'POST'])
 def invoice():
@@ -281,7 +281,7 @@ def invoice():
     for i in data['products']:
         i['product_price'], i['product_quantity'] = int(i['product_price']), int(i['product_quantity'])
     print(data)
-    return render_template('invoice.html', data=data)
+    return render_template('buyer/invoice.html', data=data)
 
 @app.route("/pinvoice", methods=['GET', 'POST'])
 def pinvoice():
@@ -296,4 +296,4 @@ def pinvoice():
     }
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
