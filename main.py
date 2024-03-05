@@ -347,8 +347,6 @@ def farmer_chat():
         WHERE c.`receiver_id` = {farmer_id} OR c.`sender_id` = {farmer_id}
     """
 
-    
-
     cur = mysql.connection.cursor()
     cur.execute(query)
     chats = cur.fetchall()
