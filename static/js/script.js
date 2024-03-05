@@ -315,7 +315,91 @@ document.getElementById('mobile-menu').addEventListener('click', function() {
     document.querySelector('.menu-items').classList.toggle('show');
 });
 
-$(".chat-btn, #ai_side_close",).click(function() {
-    // Toggle the panel visibility
+$(document).on('click', "#ai_side_panel #send", async function(event) {
+    event.preventDefault();
+    var message = $(this).parent().find(".textA textarea").val();
+    var product_id = $("#ai_side_panel").attr("data-id");
+    var sender = "customer";
+    var sender_id = $("#buyer_id").val();
+    var receiver_id = $("#ai_side_panel").attr("data-farmer_id");
+    var data = {
+        "message": message,
+        "product_id": product_id,
+        "sender_type": sender,
+        "sender_id": sender_id,
+        "receiver_id": receiver_id
+    }
+    console.log(data);
+    resp = await axios({
+        method: "POST",
+        url: baseUrl + "/chat",
+        data: {"data":data}
+    });
+    console.log({resp});
+    $(this).parent().find(".textA textarea").val("");
+    var div_data = `
+    <div class="message mMess">
+        <div class="prof" style="background-color: #ff7b54;">
+            <p>B</p>
+        </div>
+        <div class="messArea">
+            <p class="sname">${sender}</p>
+            <div class="ai_textM bg-light shadow">${message}</div>
+        </div>
+    </div>
+    `
+    $("#ai_side_panel .chatMessages").append(div_data);
+});
+
+$(document).on('click', ".chat-btn", async function(event) {
+    var product_id = $(this).parent().find(".product_id").val();
+    $(".ai_side_panel").attr("data-id", product_id);
+    $(".ai_side_panel").attr("data-farmer_id", $(this).parent().find(".farmer_id").val());
+
+    resp = await axios({
+        method: "GET",
+        url: baseUrl + "/chat",
+        params: {
+            "product_id": product_id
+        }
+    });
+    var data = resp.data;
+    console.log(data);
+    var chatMessages = "";
+    for(let i=0; i<data.length; i++) {
+        if(data[i].sender_type == "customer") {
+            var div_data = `
+            <div class="message mMess">
+                <div class="prof" style="background-color: #ff7b54;">
+                    <p>B</p>
+                </div>
+                <div class="messArea">
+                    <p class="sname">${data[i].sender_type}</p>
+                    <div class="ai_textM bg-light shadow">${data[i].message}</div>
+                </div>
+            </div>
+            `
+            chatMessages += div_data;
+        } else {
+            var div_data = `
+            <div class="message mMess">
+                <div class="prof" style="background-color: #ff7b54;">
+                    <p>F</p>
+                </div>
+                <div class="messArea">
+                    <p class="sname">${data[i].sender_type}</p>
+                    <div class="ai_textM shadow">${data[i].message}</div>
+                </div>
+            </div>
+            `
+            chatMessages += div_data;
+        }
+    }
+    $("#ai_side_panel .chatMessages").html(chatMessages);
+
+    $(".ai_side_panel").toggleClass("AIpanel-visible");
+});
+
+$(document).on("click", "#ai_side_close", function() {
     $(".ai_side_panel").toggleClass("AIpanel-visible");
 });

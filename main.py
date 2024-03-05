@@ -168,6 +168,39 @@ def products():
     print(product_data, buyer_id)
     return render_template('product.html', products=product_data, farmer_id=farmer_id, buyer_id=buyer_id)
 
+
+@app.route("/chat", methods=['GET', 'POST'])
+def chat():
+    if request.method == 'POST':
+        data = request.get_json()['data']
+        print(data)
+        try:        
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO chat (product_id, sender_id, receiver_id, message, sent_at, sender_type) VALUES (%s, %s, %s, %s, %s, %s)", (data['product_id'], data['sender_id'], data['receiver_id'], data['message'], datetime.now(), data['sender_type']))
+            mysql.connection.commit()
+        except Exception as e:
+            print(e)
+            return jsonify({"success":False, "message":"Message not sent"})
+        return jsonify({"success":True, "message":"Message sent successfully"})
+    
+    product_id = request.args.get('product_id')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM chat WHERE product_id = %s", (product_id,))
+    chats = cur.fetchall()
+    chat_data = []
+    for i in chats:
+        chat_data.append({
+            'id': i[0],
+            'product_id': i[1],
+            'sender_id': i[2],
+            'receiver_id': i[3],
+            'message': i[4],
+            'sent_at': i[5],
+            'sender_type': i[6]
+        })
+    print(chat_data)
+    return jsonify(chat_data)
+
 @app.route("/farmer", methods=['GET', 'POST'])
 def farmer():
     return render_template('farmer/farmer.html')
@@ -295,10 +328,59 @@ def pinvoice():
         "success":True
     }
 
-@app.route("/chat", methods=['GET', 'POST'])
-def chat(): 
+@app.route("/farmer_chat", methods=['GET', 'POST'])
+def farmer_chat(): 
+    farmer_id = session.get('farmer_id')
+    if not farmer_id:
+        return redirect(url_for('farmer_login'))
+    
+    query = f"""
+        SELECT c.product_id,p.name,c.`sender_type`,c.`sender_id`,c.`receiver_id`,ua.username AS sender_name,
+        uc.username AS reciever_name, c.`message`
+        FROM chat c
+        JOIN user_account ua
+        ON ua.id=c.sender_id
+        JOIN product p
+        ON c.product_id=p.`id`
+        JOIN user_account uc
+        ON uc.id=c.`receiver_id`
+        WHERE c.`receiver_id` = {farmer_id} OR c.`sender_id` = {farmer_id}
+    """
 
-    return render_template('chat.html')
+    
+
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    chats = cur.fetchall()
+    chat_data = {}
+    for product_id, product_name, sender_type, sender_id, receiver_id, sender_name, receiver_name, message in chats:
+        if product_id not in chat_data:
+            chat_data[product_id] = {
+                "product_name": product_name,
+                "customer_chats": {}
+            }
+
+        customer_id = receiver_id if sender_type == "farmer" else sender_id
+        customer_name = receiver_name if sender_type == "farmer" else sender_name
+
+        if customer_id not in chat_data[product_id]["customer_chats"]:
+            chat_data[product_id]["customer_chats"][customer_id] = {
+                "customer_name": customer_name,
+                "messages": [],
+            }
+
+        chat_data[product_id]["customer_chats"][customer_id]["messages"].append({
+            "message": message,
+            "sender": sender_name,
+            "receiver": receiver_name,
+            "sender_type": sender_type
+        })
+    # make a list of chats based on product and customers
+    print(json.dumps(chat_data, indent=4))
+
+    # print(chats)
+    
+    return render_template('chat.html', chats=chat_data, range=range, len=len)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

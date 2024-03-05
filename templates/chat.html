@@ -4,19 +4,90 @@
         <h2>Let's Chat!</h2>
         <div class="chat-interface">
             <div class="sessions">
-                <input type="text" placeholder="Search... Sessions">
-                <div class="session-item active">Lorem Ipsum</div>
-                <div class="session-item">Lorem Ipsum</div>
-                <!-- Add more session items as needed -->
+                <!-- <div class="session-item active">Lorem Ipsum</div>
+                <div class="session-item">Lorem Ipsum</div> -->
+                {# for i, chat in chats.items() #}
+                    <!-- <div class="session-item tablinks" onclick="openChat(event, 'product_id_{# i #}')">{# chat.product_name #}</div> -->
+                {# endfor #}
+                <div class="session-item tablinks" onclick="openCustomer(event, 'customer_id_1')" id="defaultOpen">Product ALu</div>
+                <div class="session-item tablinks" onclick="openCustomer(event, 'customer_id_2')">Product Onion</div>
+                <!--<div class="session-item tablinks" onclick="openChat(event, 'Tokyo')">Tokyo</div> -->
+            </div>
+            <div class="sessions sessions2">
+                <!-- <div class="session-item active">Lorem Ipsum</div>
+                <div class="session-item">Lorem Ipsum</div> -->
+                {# for i, chat in chats.items() #}
+                    <!-- <div class="session-item tablinks" onclick="openChat(event, 'product_id_{# i #}')">{# chat.product_name #}</div> -->
+                {# endfor #}
+                <div class="session-item tabCustomerContent tabCustomerlinks" id="customer_id_1" onclick="openChat(event, 'product_id_1')">Product ALu</div>
+                <div class="session-item tabCustomerContent tabCustomerlinks" id="customer_id_2" onclick="openChat(event, 'product_id_2')">Product Onion</div>
+                <!--<div class="session-item tablinks" onclick="openChat(event, 'Tokyo')">Tokyo</div> -->
             </div>
             <div class="chat-setting">
-                <div class="message received">Lorem ipsum?</div>
-                <div class="message sent">Lorem ipsum dolor sit amet.</div>
-                <!-- Add more chat messages here -->
-                <div class="chat-input">
-                    <input type="text" placeholder="Type your message here">
-                    <button>Send</button>
+
+                {# for i, chat in chats.items() #}
+                    <!-- <div id="product_id_{# i #}" class="tabcontent">
+                        {# for message in chat.messages #}
+                            <div class="message received">{# message.message #}</div>
+                        {# endfor #}
+                        <div class="chat-input">
+                            <input type="text" placeholder="Type your message here">
+                            <button>Send</button>
+                        </div> -->
+                {# endfor #}
+
+                <div id="product_id_1" class="tabcontent">
+                    <div class="message received">Aalu</div>
+                    <div class="message sent">Lorem ipsum dolor sit amet.</div>
+                    <div class="chat-input">
+                        <input type="text" placeholder="Type your message here">
+                        <button>Send</button>
+                    </div>
+                </div>
+                <div id="product_id_2" class="tabcontent">
+                    <div class="message received">Onion</div>
+                    <div class="message sent">Lorem ipsum dolor sit amet.</div>
+                    <div class="chat-input">
+                        <input type="text" placeholder="Type your message here">
+                        <button>Send</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block base_script %}
+    <script>
+
+        function openCustomer(evt, customerName) {
+            var i, tabCustomerContent, tablinks;
+            tabCustomerContent = document.getElementsByClassName("tabCustomerContent");
+            for (i = 0; i < tabCustomerContent.length; i++) {
+                tabCustomerContent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(customerName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        function openChat(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
 {% endblock %}

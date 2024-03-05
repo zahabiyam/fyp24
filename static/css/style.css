@@ -561,12 +561,17 @@ button.add-to-cart-btn:hover {
   }
   
   .mMess .messArea .ai_textM{
-    background-color: #99578F;
+    background-color: #1A5D1A;
     color: white;
     margin-left: auto;
     transition: .6s cubic-bezier(.07,.76,.13,1.02);
   }
   
+  .mMess .messArea .ai_textM.bg-light{
+    color: black;
+  }
+  
+
   .newMmess{
     transform: translateY(100px) scale(3);
   }
@@ -1473,7 +1478,7 @@ background-color: #155512;
 
 .chat-interface {
   display: flex;
-  height: 100vh;
+  height: 70vh;
   font-family: Arial, sans-serif;
 }
 
@@ -1537,8 +1542,8 @@ background-color: #155512;
   padding: 1rem;
   border-top: 1px solid #ccc;
   position: absolute;
-  bottom: 80px;
-  width: 60%;
+  bottom: 20px;
+  width: 50%;
 }
 
 .chat-input input {
