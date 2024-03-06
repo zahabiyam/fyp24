@@ -1,6 +1,7 @@
 {% extends "farmer_base.html" %}
 {% block farmer_base %}
     <div class="container">
+        <input type="hidden" id="farmer_id" value="{{ farmer_id }}">
         <h2>Let's Chat!</h2>
         <div class="chat-interface">
             <div class="sessions">
@@ -35,8 +36,10 @@
                                 {% endif %}
                             {% endfor %}
                             <div class="chat-input">
-                                <input type="text" placeholder="Type your message here">
-                                <button>Send</button>
+                                <input type="hidden" class="customer_id" value="{{ customer_id }}">
+                                <input type="hidden" class="product_id" value="{{ i }}">
+                                <input type="text" class="message_text" placeholder="Type your message here">
+                                <button type="button" class="send">Send</button>
                             </div>
                         </div>
                     {% endfor %}

@@ -378,7 +378,7 @@ def farmer_chat():
 
     # print(chats)
     
-    return render_template('chat.html', chats=chat_data, range=range, len=len)
+    return render_template('chat.html', chats=chat_data, range=range, len=len, farmer_id=farmer_id)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
