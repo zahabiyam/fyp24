@@ -30,8 +30,44 @@
                     <div class="info-item">
                         <strong>Total Deliveries:</strong> {{ user.farming_experience }}
                     </div>
+                    <button id="farmer_prof_update">Update Profile</button>
                 </section>
-                <button id="farmer_prof_update">Update Profile</button>
+                <section class="product">
+                    <h2>Your Products</h2>
+                    <ul class="product-list">
+                        <li>
+                            <span>Name:</span> Product 1
+                            <span>Product ID:</span> PID001
+                            <span>Quantity:</span> 10
+                            <span>Price:</span> $20
+                            <div class="buttons">
+                                <button class="update-btn">Update</button>
+                                <button class="delete-btn">Delete</button>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Name:</span> Product 2
+                            <span>Product ID:</span> PID002
+                            <span>Quantity:</span> 15
+                            <span>Price:</span> $30
+                            <div class="buttons">
+                                <button class="update-btn">Update</button>
+                                <button class="delete-btn">Delete</button>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Name:</span> Product 3
+                            <span>Product ID:</span> PID003
+                            <span>Quantity:</span> 8
+                            <span>Price:</span> $25
+                            <div class="buttons">
+                                <button class="update-btn">Update</button>
+                                <button class="delete-btn">Delete</button>
+                            </div>
+                        </li>
+                        <button class="add-btn">Add More Products</button>
+                    </ul>
+                </section>
             {% elif buyer_id %}
                 <h1>Your Profile</h1>
                 <section class="personal-info">

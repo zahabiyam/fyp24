@@ -32,7 +32,8 @@ body {
     width: 120px;
 }
 .product-card img {
-    width: 100%;
+  width: 307px;
+  height: 307px;
 }
 .container {
     max-width: 1600px;
@@ -377,7 +378,7 @@ body {
 }
 
 .product-price {
-    color: #e74c3c;
+    color: #1A5D1A;
     font-weight: bold;
     margin-top: 10px;
 }
@@ -517,7 +518,7 @@ button.add-to-cart-btn:hover {
     color: #938f8f;
   
   }
-  .prof{
+  /* .prof{
     min-width: 35px;
     min-height: 35px;
     margin: 1px 9px auto 6px;
@@ -529,7 +530,20 @@ button.add-to-cart-btn:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+  } */
+.prof{
+  min-width: 36px;
+    height: 36px;
+    margin: 1px 9px auto 6px;
+    background: #99578F;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 2rem;
+    text-align: center;
+    padding: 0.3em;
+}
+
   h1.ai_textM{
       font-size: 0.8rem;
   }
@@ -565,6 +579,7 @@ button.add-to-cart-btn:hover {
     color: white;
     margin-left: auto;
     transition: .6s cubic-bezier(.07,.76,.13,1.02);
+    font-size: 1em;
   }
   
   .mMess .messArea .ai_textM.bg-light{
@@ -1367,20 +1382,48 @@ button.chat-btn:hover {
     border-bottom: 1px solid #ccc;
     padding-bottom: 20px;
 }
+.profile section.about{
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 20px;
+}
 
-.profile button{
-    width: 20%;
-    padding: 10px;
+.profile section.product .product-list {
+  list-style: none;
+  padding: 0;
+}
+
+.profile section.product .product-list li {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  align-items: center;
+}
+
+.profile section.product .product-list li span {
+  font-weight: 900;
+}
+
+.profile section.product .buttons {
+  display: flex;
+}
+
+.profile section.product button{
+    padding: 10px 24px;
     border: none;
     border-radius: 5px;
     background-color: #1A5D1A;
     color: #fff;
     cursor: pointer;
     font-weight: bold;
-    margin-top: 40px;
+    margin-top: 20px;
+    margin-right: 10px;
 }
 
-.profile button:hover {
+.profile section.product .buttons button.delete-btn{
+  background-color: #ad0404;
+}
+
+.profile section.product button:hover {
 background-color: #155512;
 }
 
@@ -1396,6 +1439,22 @@ background-color: #155512;
     align-items: flex-end;
     width: 100%;
     
+}
+
+.profile section.about button#farmer_prof_update{
+  padding: 10px 24px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1A5D1A;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-right: 10px;
+}
+
+.profile section.about button#farmer_prof_update:hover{
+  background-color: #0c2e0c;
 }
 
 
@@ -1564,4 +1623,14 @@ background-color: #155512;
 
 .chat-input button:hover{
   background-color: #155512;
+}
+.contact-form .form-group textarea#message {
+  position: relative;
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #f0f0f0;
+  transition: border-color 0.3s, background-color 0.3s;
 }

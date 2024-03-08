@@ -219,7 +219,7 @@ def buyer():
         'phone': user[3],
         'email': user[4],
     } 
-    return render_template('buyer/buyer.html', user=user)
+    return render_template('customer/buyer.html', user=user)
 
 @app.route("/buyer/update", methods=['GET', 'POST'])
 def buyer_update():

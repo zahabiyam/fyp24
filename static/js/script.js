@@ -371,7 +371,7 @@ $(document).on('click', "#ai_side_panel #send", async function(event) {
     $(this).parent().find(".textA textarea").val("");
     var div_data = `
     <div class="message mMess">
-        <div class="prof" style="background-color: #ff7b54;">
+        <div class="prof" style="background-color: #1A5D1A;">
             <p>B</p>
         </div>
         <div class="messArea">
@@ -402,7 +402,7 @@ $(document).on('click', ".chat-btn", async function(event) {
         if(data[i].sender_type == "customer") {
             var div_data = `
             <div class="message mMess">
-                <div class="prof" style="background-color: #ff7b54;">
+                <div class="prof" style="background-color: #1A5D1A;">
                     <p>B</p>
                 </div>
                 <div class="messArea">
@@ -415,7 +415,7 @@ $(document).on('click', ".chat-btn", async function(event) {
         } else {
             var div_data = `
             <div class="message mMess">
-                <div class="prof" style="background-color: #ff7b54;">
+                <div class="prof" style="background-color: #1A5D1A;">
                     <p>F</p>
                 </div>
                 <div class="messArea">
