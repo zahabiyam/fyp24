@@ -586,8 +586,20 @@ button.add-to-cart-btn:hover {
     color: black;
   }
   
-
-  .newMmess{
+.profile button#buyer_prof_update{
+  width: 20%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1A5D1A;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+}
+.profile button#buyer_prof_update:hover{
+  background-color: #155512;
+}
+.newMmess{
     transform: translateY(100px) scale(3);
   }
   
@@ -1600,9 +1612,9 @@ background-color: #155512;
   align-items: center;
   padding: 1rem;
   border-top: 1px solid #ccc;
-  position: absolute;
-  bottom: 20px;
-  width: 50%;
+  position: relative;
+  bottom: 0px;
+  width: 90%;
 }
 
 .chat-input input {
@@ -1633,4 +1645,23 @@ background-color: #155512;
   font-size: 16px;
   background-color: #f0f0f0;
   transition: border-color 0.3s, background-color 0.3s;
+}
+.chat-farmer{
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 999;
+}
+.chat-farmer button{
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.chat-farmer button i{
+  font-size: 30px;
+  margin-right: 5px;
+  color: #fff;
+  background: #1A5D1A;
+  padding: 0.5em;
+  border-radius: 50%;
 }
