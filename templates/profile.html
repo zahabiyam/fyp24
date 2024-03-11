@@ -35,7 +35,18 @@
                 <section class="product">
                     <h2>Your Products</h2>
                     <ul class="product-list">
-                        <li>
+                        {% for i in products %}
+                            <li>
+                                <span>Name:</span> {{ i.name }}
+                                <span>Quantity:</span> {{ i.quantity }}
+                                <span>Price:</span> ${{ i.price }}
+                                <div class="buttons">
+                                    <button class="update-btn product-update-btn" data-product_id="{{ i.id }}">Update</button>
+                                    <button class="delete-btn product-delete-btn" data-product_id="{{ i.id }}">Delete</button>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        <!-- <li>
                             <span>Name:</span> Product 1
                             <span>Product ID:</span> PID001
                             <span>Quantity:</span> 10
@@ -64,7 +75,7 @@
                                 <button class="update-btn">Update</button>
                                 <button class="delete-btn">Delete</button>
                             </div>
-                        </li>
+                        </li> -->
                         <button class="add-btn">Add More Products</button>
                     </ul>
                 </section>

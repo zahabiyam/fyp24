@@ -289,6 +289,33 @@ $(document).on("click", "#product_add #submit", async function(event) {
     }
 });
 
+$(document).on("click", ".product-delete-btn", async function(event) {
+    event.preventDefault();
+    var product_id = $(this).attr("data-product_id");
+    console.log(product_id);
+    resp = await axios({
+        method: "POST",
+        url: baseUrl + "/product_delete",
+        params: {
+            "product_id": product_id
+        }
+    });
+    console.log({resp});
+    if(resp.data.success) {
+        alert(resp.data.message);
+        window.location.href = "/products";
+    } else {
+        alert(resp.data.message);
+    }
+});
+
+$(document).on("click", ".product-update-btn", async function(event) {
+    event.preventDefault();
+    var product_id = $(this).attr("data-product_id");
+    console.log(product_id);
+    window.location.href = "/product_update?product_id=" + product_id;
+});
+
 $(document).on('click', "form#buyer_update #submit", async function(event) {
     event.preventDefault();
     var data = $("form#buyer_update").serializeArray();
@@ -319,7 +346,6 @@ document.getElementById('mobile-menu').addEventListener('click', function() {
 $(document).on('click', ".chat-farmer", async function(event) {
     $(this).parent().find(".ffs-chat-panel").toggleClass("chat-visible");
 });
-
 
 $(document).on("click", ".chat-input .send", async function(event) {
     event.preventDefault();

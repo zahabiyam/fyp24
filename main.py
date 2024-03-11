@@ -82,6 +82,7 @@ def profile():
     
     cur = mysql.connection.cursor()
     profile_type = ""
+    products = []
     if farmer_id:
         cur.execute("SELECT * FROM farmer WHERE UserAccountID = %s", (farmer_id,))
         user = cur.fetchone()
@@ -94,6 +95,19 @@ def profile():
             'farming_experience': user[6]
         }
         profile_type = "Farmer"
+        cur.execute("SELECT * FROM product WHERE FarmerID = %s", (farmer_id,))
+        product_data = cur.fetchall()
+        for i in product_data:
+            products.append({
+                'id': i[0],
+                'name': i[1],
+                'image_url': i[2],
+                'description': i[3],
+                'category': i[4],
+                'price': i[5],
+                'quantity': i[6],
+                'farmer_id': i[7]
+            })
     elif buyer_id:
         cur.execute("SELECT * FROM buyer WHERE UserAccountID = %s", (buyer_id,))
         user = cur.fetchone()
@@ -106,7 +120,7 @@ def profile():
         profile_type = "Buyer"
     print(user)
     
-    return render_template('profile.html', user=user, farmer_id=farmer_id, buyer_id=buyer_id, profile_type=profile_type)
+    return render_template('profile.html', user=user, farmer_id=farmer_id, buyer_id=buyer_id, profile_type=profile_type, products=products)
 
 @app.route('/signup_farmer',methods=["GET","POST"])
 def signup_farmer():
@@ -247,28 +261,50 @@ def file_upload():
     attachment_file.save("static/uploads/"+filename)
     return jsonify({"success":True, "message":"File uploaded successfully", "file_url":file_url})
 
+@app.route("/product_delete", methods=['POST'])
+def product_delete():
+    if 'farmer_id' not in session.keys():
+        return redirect(url_for('farmer_login'))
+    product_id = request.args.get('product_id')
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM product WHERE id = %s", (product_id,))
+    mysql.connection.commit()
+    return jsonify({"success":True, "message":"Product deleted successfully"})
+
 @app.route("/product_update", methods=['GET', 'POST'])
 def product_update():
-    # if 'farmer_id' not in session.keys():
-    #     return redirect(url_for('farmer_login'))
+    print(session.keys())
+    if 'farmer_id' not in session.keys():
+        return redirect(url_for('farmer_login'))
+    if request.method != 'POST':
+        product_id = request.args.get('product_id')
+        print(product_id)
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM product WHERE id = %s", (product_id,))
+        product = cur.fetchone()
+        products = {
+            'id': product[0],
+            'name': product[1],
+            'image_url': product[2],
+            'description': product[3],
+            'category': product[4],
+            'price': product[5],
+            'quantity': product[6],
+            'farmer_id': product[7]
+        }
+        return render_template('farmer/product_update.html', products=products, farmer_id=product[7])
     
-    # if request.method != 'POST':
-    #     cur = mysql.connection.cursor()
-    #     cur.execute("SELECT * FROM product WHERE FarmerID = %s", (session.get('farmer_id'),))
-    #     products = cur.fetchall()
-    #     return render_template('product_update.html', products=products)
-    
-    # data = request.get_json()['data']
-    # user_data = {}
-    # for i in data:
-    #     user_data[i['name']] = str(i['value'])
-    # farmer_id = session.get('farmer_id')
-    # print(user_data)
-    # cur = mysql.connection.cursor()
-    # cur.execute("UPDATE product SET Name = %s, image_url = %s, Description = %s, Category = %s, Price = %s, QuantityAvailable = %s WHERE FarmerID = %s", (user_data['product_name'], user_data['product_image_url'], user_data['product_description'], '', int(user_data['product_price']), int(user_data['product_quantity']), int(farmer_id)))
-    # mysql.connection.commit()
-    # return jsonify({"success":True, "message":"Product updated successfully"})
-    return render_template('farmer/product_update.html')
+    data = request.get_json()['data']
+    user_data = {}
+    for i in data:
+        user_data[i['name']] = str(i['value'])
+    farmer_id = session.get('farmer_id')
+    print(user_data)
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE product SET Name = %s, image_url = %s, Description = %s, Category = %s, Price = %s, QuantityAvailable = %s WHERE FarmerID = %s", (user_data['product_name'], user_data['product_image_url'], user_data['product_description'], '', int(user_data['product_price']), int(user_data['product_quantity']), int(farmer_id)))
+    mysql.connection.commit()
+    return jsonify({"success":True, "message":"Product updated successfully"})
+    # return render_template('farmer/product_update.html')
 
 @app.route("/product_add", methods=['GET', 'POST'])
 def product_add():
