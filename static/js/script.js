@@ -316,6 +316,11 @@ document.getElementById('mobile-menu').addEventListener('click', function() {
 });
 
 
+$(document).on('click', ".chat-farmer", async function(event) {
+    $(this).parent().find(".ffs-chat-panel").toggleClass("chat-visible");
+});
+
+
 $(document).on("click", ".chat-input .send", async function(event) {
     event.preventDefault();
     var message = $(this).parent().find(".message_text").val();

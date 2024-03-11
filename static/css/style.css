@@ -1665,3 +1665,36 @@ background-color: #155512;
   padding: 0.5em;
   border-radius: 50%;
 }
+
+.chat-visible {
+  display: none;
+}
+
+body .ffs-chat-panel {
+  position: fixed;
+  z-index: 99;
+  right: 2em;
+  bottom: 2em;
+  width: 23em 
+  opacity: 1;
+  visibility: visible;
+
+  transform: translateY(0px);
+  -webkit-transition: .4s ease all;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+body .ffs-chat-panel .ffs-panel-header {
+  background: #06d755;
+  padding: 1em 2em 1em 5em;
+  position: relative;
+  color: #fff;
+}
+
+body .ffs-chat-panel .ffs-panel-content {
+  display: flex;
+  width: 200%;
+  overflow: hidden;
+  background: #fff;
+}
