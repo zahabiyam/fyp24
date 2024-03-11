@@ -1675,19 +1675,18 @@ body .ffs-chat-panel {
   z-index: 99;
   right: 2em;
   bottom: 2em;
-  width: 23em 
+  width: 23em;
   opacity: 1;
   visibility: visible;
-
-  transform: translateY(0px);
+   transform: translateY(0px);
   -webkit-transition: .4s ease all;
   overflow: hidden;
   border-radius: 5px;
 }
 
 body .ffs-chat-panel .ffs-panel-header {
-  background: #06d755;
-  padding: 1em 2em 1em 5em;
+  background: #07420D;
+  padding: 1em 2em 1em 2em;
   position: relative;
   color: #fff;
 }
@@ -1697,4 +1696,32 @@ body .ffs-chat-panel .ffs-panel-content {
   width: 200%;
   overflow: hidden;
   background: #fff;
+}
+body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide .ffs-person .ffs-person-img{
+  display: none;
+}
+body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide li.ffs-content-item.ffs-content-item{
+  list-style: none;
+  border-left: 2px solid #07420d;
+  margin-bottom: 0.8em;
+  border-radius: 5px;
+}
+body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide2{
+  display: none;
+}
+body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide li.ffs-content-item.ffs-content-item .ffs-person-name{
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #07420d;
+}
+body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide1{
+  width: 50%;
+}
+body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide1 ul.ffs-content-list{
+  padding: 1em;
+}
+body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide1 ul.ffs-content-list a.ffs-person.ffs-person-1{
+  display: flex;
+  background: #F5F7F9;
+  padding: 0.3em;
 }
