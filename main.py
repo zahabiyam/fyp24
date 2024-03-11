@@ -198,21 +198,39 @@ def chat():
         return jsonify({"success":True, "message":"Message sent successfully"})
     
     product_id = request.args.get('product_id')
+    buyer_id = request.args.get('buyer_id')
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM chat WHERE product_id = %s", (product_id,))
+    
+    
+    # cur.execute("SELECT * FROM chat WHERE product_id = %s", (product_id,))
+    # chats = cur.fetchall()
+    query = f"""
+        SELECT c.product_id,p.name,c.`sender_type`,c.`sender_id`,c.`receiver_id`,ua.username AS sender_name,
+        uc.username AS reciever_name, c.`message`
+        FROM chat c
+        JOIN user_account ua
+        ON ua.id=c.sender_id
+        JOIN product p
+        ON c.product_id=p.`id`
+        JOIN user_account uc
+        ON uc.id=c.`receiver_id`
+        WHERE (c.`receiver_id` = {buyer_id} OR c.`sender_id` = {buyer_id} ) AND p.id = {product_id};
+    """
+    cur.execute(query)
     chats = cur.fetchall()
+
     chat_data = []
     for i in chats:
         chat_data.append({
-            'id': i[0],
-            'product_id': i[1],
-            'sender_id': i[2],
-            'receiver_id': i[3],
-            'message': i[4],
-            'sent_at': i[5],
-            'sender_type': i[6]
+            'product_id': i[0],
+            'product_name': i[1],
+            'sender_type': i[2],
+            'sender_id': i[3],
+            'receiver_id': i[4],
+            'sender_name': i[5],
+            'receiver_name': i[6],
+            'message': i[7]
         })
-    print(chat_data)
     return jsonify(chat_data)
 
 @app.route("/farmer", methods=['GET', 'POST'])

@@ -418,11 +418,12 @@ $(document).on('click', ".chat-btn", async function(event) {
     var product_id = $(this).parent().find(".product_id").val();
     $(".ai_side_panel").attr("data-id", product_id);
     $(".ai_side_panel").attr("data-farmer_id", $(this).parent().find(".farmer_id").val());
-
+    var buyer_id = $("#buyer_id").val();
     resp = await axios({
         method: "GET",
         url: baseUrl + "/chat",
         params: {
+            "buyer_id": buyer_id,
             "product_id": product_id
         }
     });
