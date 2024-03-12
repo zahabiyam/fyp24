@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'MyKey'
 
 
+os.environ["API_KEY"] = "7704d000af68868d3284bb7b620104ae"
 mysql=MySQL(app)
 # app.config['MYSQL_HOST'] = '192.168.10.4'
 app.config['MYSQL_HOST'] = '182.188.46.104'

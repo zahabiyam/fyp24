@@ -3,6 +3,7 @@ from flask import render_template, redirect, url_for, request, session, jsonify
 from config import app, mysql
 from datetime import datetime
 import random
+from weather_helpers import coordinates, getweather, getaqi
 
 ######### VIEW FUNCTIONS ##########
 
@@ -152,7 +153,7 @@ def signup_farmer():
     # session['user_id'] = user_id
 
     if user_data['category'] == 'farmer':
-        cur.execute("INSERT INTO farmer (Name, Location, ContactPhone, ContactEmail, FarmSize, FarmingExperience, UserAccountID) VALUES (%s, %s, %s, %s, %s, %s, %s)", (user_data['username'], '', user_data['phone'], user_data['email'], 0, 0, user_id))
+        cur.execute("INSERT INTO farmer (Name, Location, ContactPhone, ContactEmail, FarmSize, FarmingExperience, zipcode, UserAccountID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (user_data['username'], '', user_data['phone'], user_data['email'], 0, 0, user_data['zipcode'],user_id))
     elif user_data['category'] == 'customer':
         cur.execute("INSERT INTO buyer (Name, Location, ContactPhone, ContactEmail, UserAccountID) VALUES (%s, %s, %s, %s, %s)", (user_data['username'], '', user_data['phone'], user_data['email'], user_id))
     mysql.connection.commit()
@@ -434,6 +435,34 @@ def farmer_chat():
     # print(chats)
     
     return render_template('chat.html', chats=chat_data, range=range, len=len, farmer_id=farmer_id)
+
+
+@app.route("/farmer/get_full_weather", methods=["GET", "POST"])
+def full_weather():
+
+    farmer_id = session.get('farmer_id')
+    if not farmer_id:
+        return redirect(url_for('farmer_login'))    
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT zipcode FROM farmer WHERE UserAccountID = %s", (farmer_id,))
+    zipcode = cur.fetchone()[0]
+
+    zipcode = int(zipcode)
+    units = request.form.get("units")
+
+    # Get latitude and longitude for zipcode
+    latlong = coordinates(zipcode)
+    lat = latlong["lat"]
+    lon = latlong["lon"]
+
+    # Get weather by latitude and longitude
+    weather = getweather(lat, lon, units)
+    aqi = getaqi(lat, lon)
+
+    return render_template("full_weather.html", weather=weather, aqi=aqi, units=units)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

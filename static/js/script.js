@@ -267,6 +267,15 @@ $(document).on("change", "#product_image", function() {
     });
 });
 
+$(document).on("change", "#category", async function(event) {
+    var category = $(this).val();
+    if (category != "farmer"){ 
+        $(".zipcode").hide();
+        return;
+    }
+    $(".zipcode").show();
+});
+
 $(document).on("click", "#product_add #submit", async function(event) {
     event.preventDefault();
     var data = $("#product_add").serializeArray();
