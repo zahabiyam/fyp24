@@ -289,6 +289,28 @@ $(document).on("click", "#product_add #submit", async function(event) {
     }
 });
 
+$(document).on("click", "#product_update #submit", async function(event) {
+    event.preventDefault();
+    var data = $("#product_update").serializeArray();
+    data = {
+        "data": data
+    }
+    console.log(data);
+    resp = await axios({
+        method: "POST",
+        url: baseUrl + "/product_update",
+        data: data
+    });
+    console.log(resp);
+    if(!resp.data.success) {
+        alert(resp.data.message);
+        $("#product_update").trigger("reset");
+    } else {
+        alert(resp.data.message);
+        window.location.href = "/products";
+    }
+});
+
 $(document).on("click", ".product-delete-btn", async function(event) {
     event.preventDefault();
     var product_id = $(this).attr("data-product_id");
@@ -413,6 +435,12 @@ $(document).on('click', "#ai_side_panel #send", async function(event) {
     `
     $("#ai_side_panel .chatMessages").append(div_data);
 });
+
+
+$(document).on("click", ".product-add-btn", function() {
+    window.location.href = "/product_add";
+});
+
 
 $(document).on('click', ".chat-btn", async function(event) {
     var product_id = $(this).parent().find(".product_id").val();

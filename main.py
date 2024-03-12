@@ -318,6 +318,7 @@ def product_update():
         user_data[i['name']] = str(i['value'])
     farmer_id = session.get('farmer_id')
     print(user_data)
+    
     cur = mysql.connection.cursor()
     cur.execute("UPDATE product SET Name = %s, image_url = %s, Description = %s, Category = %s, Price = %s, QuantityAvailable = %s WHERE FarmerID = %s", (user_data['product_name'], user_data['product_image_url'], user_data['product_description'], '', int(user_data['product_price']), int(user_data['product_quantity']), int(farmer_id)))
     mysql.connection.commit()
