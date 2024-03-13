@@ -22,12 +22,22 @@ def coordinates(zipcode):
 def getweather(lat, lon, units, date="2024-03-13"):
     # Contact API
     api_key = os.environ.get("API_KEY")
-    url = f"https://api.openweathermap.org/data/3.0/onecall/day_summary?lat={lat}&lon={lon}&date={date}&appid={api_key}"
+    # url = f"https://api.openweathermap.org/data/3.0/onecall/day_summary?lat={lat}&lon={lon}&date={date}&appid={api_key}"
+    url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units={units}"
     response = urllib.request.urlopen(url)
     data = response.read()
     dict = json.loads(data)
 
     return (dict)
+
+def getWeatherDayWise(lat, lon, units, date="2024-03-13"):
+    # Contact API
+    api_key = os.environ.get("API_KEY")
+    url = f"https://api.openweathermap.org/data/3.0/onecall/day_summary?lat={lat}&lon={lon}&date={date}&appid={api_key}&units=metric"
+    response = urllib.request.urlopen(url)
+    data = response.read()
+    dict1 = json.loads(data)
+    return (dict1)
 
 def getaqi(lat, lon):
     # Contact API

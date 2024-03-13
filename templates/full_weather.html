@@ -1,47 +1,49 @@
-{% extends "farmer_base.html" %}
-
-
-{% block farmer_base %}
 
 <div>
     <h3>Detailed Weather Report</h3>
 </div>
 
-<div>
-    <!-- <p>
-        <b>Weather:</b> {#weather.weather[0]["description"] | capitalize#}
-        <img src="/static/images/{#weather.weather[0]["icon"]#}@2x.png" alt="thumbnail" class="img-thumbnail" style="width: 80px">
-    </p> -->
+<div class="container">
     <p>
-        <b>Temperature:</b> {{weather.main["temp"]}}&#176
+        <b>Latitude: </b> {{ weather['lat'] }}
     </p>
     <p>
-        <b>Feels Like:</b> {{weather.main["feels_like"]}}&#176
+        <b>Longitude: </b> {{ weather['lon'] }}
     </p>
     <p>
-        <b>Humidity:</b> {{weather.main["humidity"]}}%
+        <b>TimeZone: </b> {{ weather['tz'] }}
     </p>
     <p>
-        <b>Atmospheric Presure:</b> {{weather.main["pressure"]}} hPa
+        <b>Date: </b> {{ weather['date'] }}
     </p>
     <p>
-        <b>Visibility:</b> {{weather.visibility}} (in meters)
+        <b>Units: </b> {{ weather['units'] }}
     </p>
     <p>
-        <b>Wind Speed:</b> {{weather.wind["speed"]}}
-        {% if units == "metric" %}
-            meters/sec
-        {% endif %}
-
-        {% if units == "imperial" %}
-        miles/hour
-        {% endif %}
+        <b>Cloud Cover: </b> {{ weather['cloud_cover']['afternoon'] }}
     </p>
     <p>
-        <b>Wind Direction:</b> {{weather.wind["deg"]}} degrees
+        <b>Humidity: </b> {{ weather['humidity']['afternoon'] }}
     </p>
     <p>
-        <b>Cloud Cover:</b> {{weather.clouds["all"]}}%
+        <b>Pressure: </b> {{ weather['pressure']['afternoon'] }}
+    </p>
+    <p>
+        <b>Precipitation: </b> {{ weather['precipitation']['total'] }}
+    </p>
+    <p>
+        <b>Temperature: </b> 
+        <p>Afternoon: {{ weather['temperature']['afternoon'] }}</p>
+        <p>Night: {{ weather['temperature']['night'] }}</p>
+        <p>Minimum: {{ weather['temperature']['min'] }}</p>
+        <p>Maximum: {{ weather['temperature']['max'] }}</p>
+        <p>Morning: {{ weather['temperature']['morning'] }}</p>
+        <p>Evening: {{ weather['temperature']['evening'] }}</p>
+        <p>
+            <b>Wind: </b>
+            <p>Speed: {{ weather['wind']['max']['speed'] }}</p>
+            <p>Direction: {{ weather['wind']['max']['direction'] }}</p>
+        </p>
     </p>
     <p>
         {% if aqi.list[0]["main"]["aqi"] == 1 %}
@@ -61,5 +63,3 @@
         {% endif %}
     </p>
 </div>
-
-{% endblock %}

@@ -504,3 +504,21 @@ $(document).on('click', ".chat-btn", async function(event) {
 $(document).on("click", "#ai_side_close", function() {
     $(".ai_side_panel").toggleClass("AIpanel-visible");
 });
+
+$(document).on("click", ".weather_container #get_weather", async function(event) {
+    event.preventDefault();
+    var date = $(".weather_container #weather_date").val();
+    console.log({date});
+    resp = await axios({
+        method: "POST",
+        url: baseUrl + "/farmer/get_full_weather",
+        params: {
+            "date": date
+        }
+    });
+    if(resp.status == 200) {
+        $(".weather_container #weather_report").html(resp.data);
+    } else {
+        alert("Error fetching weather data");
+    }
+});
