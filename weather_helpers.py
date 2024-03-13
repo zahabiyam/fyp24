@@ -19,10 +19,10 @@ def coordinates(zipcode):
 
     return (dict)
 
-def getweather(lat, lon, units, date):
+def getweather(lat, lon, units, date="2024-03-13"):
     # Contact API
     api_key = os.environ.get("API_KEY")
-    url = f"https://api.openweathermap.org/data/3.0/onecall/day_summary?lat={lat}&lon={lon}&date={date}&appid={api_key}&units={units}"
+    url = f"https://api.openweathermap.org/data/3.0/onecall/day_summary?lat={lat}&lon={lon}&date={date}&appid={api_key}"
     response = urllib.request.urlopen(url)
     data = response.read()
     dict = json.loads(data)

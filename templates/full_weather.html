@@ -1,20 +1,17 @@
-{% extends "layout.html" %}
+{% extends "farmer_base.html" %}
 
-{% block title %}
-    Detailed Weather Report
-{% endblock %}
 
-{% block main %}
+{% block farmer_base %}
 
 <div>
     <h3>Detailed Weather Report</h3>
 </div>
 
 <div>
-    <p>
-        <b>Weather:</b> {{weather.weather[0]["description"] | capitalize}}
-        <img src="/static/images/{{weather.weather[0]["icon"]}}@2x.png" alt="thumbnail" class="img-thumbnail" style="width: 80px">
-    </p>
+    <!-- <p>
+        <b>Weather:</b> {#weather.weather[0]["description"] | capitalize#}
+        <img src="/static/images/{#weather.weather[0]["icon"]#}@2x.png" alt="thumbnail" class="img-thumbnail" style="width: 80px">
+    </p> -->
     <p>
         <b>Temperature:</b> {{weather.main["temp"]}}&#176
     </p>
