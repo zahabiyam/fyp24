@@ -1134,7 +1134,8 @@ button.chat-btn:hover {
     font-size: 16px;
     margin-bottom: 15px;
     background: #EDF5F3;
-    height: 37px;
+    height: 55px;
+    color: #939393;
 }
 .add-to-cart {
     position: fixed;
@@ -1694,7 +1695,8 @@ body .ffs-chat-panel .ffs-panel-header {
 body .ffs-chat-panel .ffs-panel-content {
   display: flex;
   width: 200%;
-  overflow: hidden;
+  height: 272px;
+  overflow-y: scroll;
   background: #fff;
 }
 body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide .ffs-person .ffs-person-img{
@@ -1724,4 +1726,30 @@ body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide1 ul.ffs-content-list a.
   display: flex;
   background: #F5F7F9;
   padding: 0.3em;
+}
+.weather_container {
+  top: 71px;
+}
+.weather_container button{
+  display: inline-block;
+  padding: 17px 25px;
+  background-color: #1A5D1A;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+.weather_container button:hover{
+  background-color: #0c2e0c;
+}
+.weather_container input{
+  width: 25%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  background: #EDF5F3;
+  height: 37px;
 }
