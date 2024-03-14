@@ -505,6 +505,14 @@ $(document).on("click", "#ai_side_close", function() {
     $(".ai_side_panel").toggleClass("AIpanel-visible");
 });
 
+$(document).on("click", ".ffs-person", async function(event) {
+    event.preventDefault();
+    var farmer_id = $(this).parent().find(".farmer_id").val();
+    var product_id = $(this).parent().find(".product_id").val();
+    var notification_id = $(this).parent().find(".notification_id").val();
+    window.location.href = "/products?notification_id=" + notification_id;
+});
+
 $(document).on("click", ".weather_container #get_weather", async function(event) {
     event.preventDefault();
     var date = $(".weather_container #weather_date").val();

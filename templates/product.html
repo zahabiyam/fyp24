@@ -8,7 +8,6 @@
     </div>
     <div class="container">
         {% if buyer_id %}
-        <input type="hidden" id="buyer_id" value="{{buyer_id}}">
         <div class="add-to-cart" id="add_to_cart">
             <button type="button"><i class="fa fa-shopping-cart"></i><span class='badge badge-warning' id='lblCartCount'>0</span></button>
         </div>
@@ -74,4 +73,61 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block open_chat_script %}
+    <script>
+        {% if open_chat %}
+            $(document).ready(async function() {
+                var product_id =  {{ product_id }} // $(this).parent().find(".product_id").val();
+                console.log({product_id});
+                var prod_farmer_id = {{ prod_farmer_id }} // $(this).parent().find(".farmer_id").val();
+                $(".ai_side_panel").attr("data-id", product_id);
+                $(".ai_side_panel").attr("data-farmer_id", prod_farmer_id);
+                var buyer_id = $("#buyer_id").val();
+                resp = await axios({
+                    method: "GET",
+                    url: baseUrl + "/chat",
+                    params: {
+                        "buyer_id": buyer_id,
+                        "product_id": product_id
+                    }
+                });
+                var data = resp.data;
+                console.log(data);
+                var chatMessages = "";
+                for(let i=0; i<data.length; i++) {
+                    if(data[i].sender_type == "customer") {
+                        var div_data = `
+                        <div class="message mMess">
+                            <div class="prof" style="background-color: #1A5D1A;">
+                                <p>B</p>
+                            </div>
+                            <div class="messArea">
+                                <p class="sname">${data[i].sender_type}</p>
+                                <div class="ai_textM bg-light shadow">${data[i].message}</div>
+                            </div>
+                        </div>
+                        `
+                        chatMessages += div_data;
+                    } else {
+                        var div_data = `
+                        <div class="message mMess">
+                            <div class="prof" style="background-color: #1A5D1A;">
+                                <p>F</p>
+                            </div>
+                            <div class="messArea">
+                                <p class="sname">${data[i].sender_type}</p>
+                                <div class="ai_textM shadow">${data[i].message}</div>
+                            </div>
+                        </div>
+                        `
+                        chatMessages += div_data;
+                    }
+                }
+                $("#ai_side_panel .chatMessages").html(chatMessages);
+    
+                $(".ai_side_panel").toggleClass("AIpanel-visible");
+            });
+        {% endif %}
+    </script>
 {% endblock %}

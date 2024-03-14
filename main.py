@@ -17,7 +17,34 @@ def index():
     buyer_id = session.get("buyer_id")
     if not farmer_id and not buyer_id:
         return render_template('index.html')
-    return render_template('index.html', farmer_id=farmer_id, buyer_id=buyer_id)
+    
+    if not buyer_id:
+        return render_template('index.html', farmer_id=farmer_id)
+    chat_notification = 0
+    cur = mysql.connection.cursor()
+    cur.execute("""SELECT c.`id`, ua.`username` 'name', p.`Name` 'product_name', p.`id` 'product_id', c.`sender_id` 'farmer_id', c.`receiver_id` 'buyer_id'
+                    FROM chat_notification c
+                    JOIN user_account ua ON c.`sender_id` = ua.`id` AND ua.`role` = 'farmer'
+                    JOIN chat ch ON c.`chat_id` = ch.`id`
+                    JOIN product p ON ch.`product_id` = p.`id`
+                    WHERE c.`receiver_id` = %s AND c.`seen` = %s
+                    GROUP BY p.`id`, c.`sender_id`
+                """, (buyer_id, 0))
+    chat_notification = cur.fetchall()
+    notification_data = []
+    for i in chat_notification:
+        notification_data.append({
+            'notification_id': i[0],
+            'farmer_name': i[1],
+            'product_name': i[2],
+            'product_id': i[3],
+            'farmer_id': i[4],
+            'buyer_id': i[5]
+        })
+    print(chat_notification)
+    print(notification_data)
+
+    return render_template('index.html', buyer_id=buyer_id, notification_data = notification_data)
 
 
 @app.route('/logout',methods=['GET','POST'])
@@ -166,6 +193,25 @@ def products():
     farmer_id = session.get('farmer_id')
     buyer_id = session.get('buyer_id')
     cur = mysql.connection.cursor()
+    
+    notification_id = request.args.get('notification_id')
+    
+    open_chat = False
+    product_id = None
+    prod_farmer_id = None
+    if notification_id:
+        print("open chat")
+        print(notification_id)
+        cur.execute("UPDATE chat_notification SET seen = %s WHERE id = %s", (1, notification_id))
+        mysql.connection.commit()
+        cur.execute("""SELECT ch.`product_id`, c.`sender_id` FROM chat_notification c
+                    JOIN chat ch ON c.`chat_id` = ch.`id`
+                    WHERE c.`id` = %s""", (notification_id,))
+        chat_data = cur.fetchone()
+        product_id = chat_data[0]
+        prod_farmer_id = chat_data[1]
+        open_chat = True
+    
     cur.execute("SELECT * FROM product")
     products = cur.fetchall()
     product_data = []
@@ -180,8 +226,29 @@ def products():
             'quantity': i[6],
             'farmer_id': i[7]
         })
-    print(product_data, buyer_id)
-    return render_template('product.html', products=product_data, farmer_id=farmer_id, buyer_id=buyer_id)
+
+
+    cur = mysql.connection.cursor()
+    cur.execute("""SELECT c.`id`, ua.`username` 'name', p.`Name` 'product_name', p.`id` 'product_id', c.`sender_id` 'farmer_id', c.`receiver_id` 'buyer_id'
+                    FROM chat_notification c
+                    JOIN user_account ua ON c.`sender_id` = ua.`id` AND ua.`role` = 'farmer'
+                    JOIN chat ch ON c.`chat_id` = ch.`id`
+                    JOIN product p ON ch.`product_id` = p.`id`
+                    WHERE c.`receiver_id` = %s AND c.`seen` = %s
+                    GROUP BY p.`id`, c.`sender_id`
+                """, (buyer_id, 0))
+    chat_notification = cur.fetchall()
+    notification_data = []
+    for i in chat_notification:
+        notification_data.append({
+            'notification_id': i[0],
+            'farmer_name': i[1],
+            'product_name': i[2],
+            'product_id': i[3],
+            'farmer_id': i[4],
+            'buyer_id': i[5]
+        })
+    return render_template('product.html', products=product_data, farmer_id=farmer_id, buyer_id=buyer_id, open_chat=open_chat, product_id=product_id, prod_farmer_id=prod_farmer_id, notification_data = notification_data)
 
 
 @app.route("/chat", methods=['GET', 'POST'])
@@ -191,7 +258,10 @@ def chat():
         print(data)
         try:        
             cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO chat (product_id, sender_id, receiver_id, message, sent_at, sender_type) VALUES (%s, %s, %s, %s, %s, %s)", (data['product_id'], data['sender_id'], data['receiver_id'], data['message'], datetime.now(), data['sender_type']))
+            cur.execute("INSERT INTO chat (product_id, sender_id, receiver_id, message, sent_at, sender_type) VALUES (%s, %s, %s, %s, %s, %s)", (data['product_id'], data['sender_id'], data['receiver_id'], data['message'], datetime.now(), data['sender_type']))            
+            mysql.connection.commit()
+            chat_id = cur.lastrowid
+            cur.execute("INSERT INTO chat_notification (sender_id, receiver_id, chat_id, seen, created_at) VALUES (%s, %s, %s, %s, %s)", (data['sender_id'], data['receiver_id'], chat_id, 0, datetime.now()))
             mysql.connection.commit()
         except Exception as e:
             print(e)
