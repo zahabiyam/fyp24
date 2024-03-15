@@ -217,6 +217,29 @@ $("#buyer_login #submit").click(async function(event) {
     }
 });
 
+
+$(document).on('click', "#login #submit", async function(event) {
+    event.preventDefault();
+    var data = $("#login").serializeArray();
+    data = {
+        "data": data
+    }
+    console.log(data);
+    resp = await axios({
+        method: "POST",
+        url: baseUrl + "/login",
+        data: data
+    });
+    console.log({ resp });
+    if(!resp.data.success) {
+        alert(resp.data.message);
+        $("#login").trigger("reset");
+    } else {
+        window.location.href = "/";
+    }
+});
+
+
 $(document).on('click', "#farmer_login #submit", async function(event) {
     event.preventDefault();
     var data = $("#farmer_login").serializeArray();
@@ -510,6 +533,13 @@ $(document).on("click", ".ffs-person", async function(event) {
     var farmer_id = $(this).parent().find(".farmer_id").val();
     var product_id = $(this).parent().find(".product_id").val();
     var notification_id = $(this).parent().find(".notification_id").val();
+
+    var if_farmer = $("#farmer_id").val();
+    console.log(if_farmer);
+    if (if_farmer) {
+        window.location.href = "/farmer_chat?notification_id=" + notification_id;
+        return;
+    }
     window.location.href = "/products?notification_id=" + notification_id;
 });
 

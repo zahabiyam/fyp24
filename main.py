@@ -19,7 +19,29 @@ def index():
         return render_template('index.html')
     
     if not buyer_id:
-        return render_template('index.html', farmer_id=farmer_id)
+        cur = mysql.connection.cursor()
+        cur.execute("""SELECT c.`id`, ua.`username` 'name', p.`Name` 'product_name', p.`id` 'product_id', c.`sender_id` 'buyer_id', c.`receiver_id` 'farmer_id'
+                        FROM chat_notification c
+                        JOIN user_account ua ON c.`sender_id` = ua.`id` AND ua.`role` = 'customer'
+                        JOIN chat ch ON c.`chat_id` = ch.`id`
+                        JOIN product p ON ch.`product_id` = p.`id`
+                        WHERE c.`receiver_id` = %s AND c.`seen` = %s
+                        GROUP BY p.`id`, c.`sender_id`
+                    """, (farmer_id, 0))
+        chat_notification = cur.fetchall()
+        notification_data = []
+        for i in chat_notification:
+            notification_data.append({
+                'notification_id': i[0],
+                'name': i[1],
+                'product_name': i[2],
+                'product_id': i[3],
+                'buyer_id': i[4],
+                'farmer_id': i[5]
+            })
+        print(chat_notification)
+        print(notification_data)
+        return render_template('index.html', farmer_id=farmer_id, notification_data = notification_data)
     chat_notification = 0
     cur = mysql.connection.cursor()
     cur.execute("""SELECT c.`id`, ua.`username` 'name', p.`Name` 'product_name', p.`id` 'product_id', c.`sender_id` 'farmer_id', c.`receiver_id` 'buyer_id'
@@ -53,46 +75,25 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/farmer_login',methods=['GET','POST'])
-def farmer_login():
+@app.route("/login", methods=['GET', 'POST'])
+def login():
     if request.method != 'POST':
-        return render_template('farmer/farmer_login.html')
-    
+        return render_template('login.html')
     data = request.get_json()['data']
     user_data = {}
     for i in data:
         user_data[i['name']] = str(i['value'])
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM user_account WHERE username = %s AND password = %s", (user_data['username'], user_data['password']))
+    cur.execute("SELECT * FROM user_account WHERE username = %s AND password = %s AND role = %s", (user_data['username'], user_data['password'], user_data['user_type']))
     user = cur.fetchone()
-    f_user = cur.execute("SELECT * FROM user_account WHERE username = %s AND password = %s AND role = 'farmer'", (user_data['username'], user_data['password']))
     if not user:
-        return jsonify({"success":False, "message":"Invalid username or password"})
-    if not f_user:
-        return jsonify({"success":False, "message":"You are not a farmer"})
-    session['farmer_id'] = user[0]
+        return jsonify({"success":False, "message":"Invalid username or password or role"})
+    if user_data['user_type'] == 'farmer':
+        session['farmer_id'] = user[0]
+    elif user_data['user_type'] == 'customer':
+        session['buyer_id'] = user[0]
     return jsonify({"success":True, "message":"Login successful", "category":user[3]})
 
-@app.route('/buyer_login',methods=['GET','POST'])
-def buyer_login():
-    if request.method != 'POST':
-        return render_template('customer/buyer_login.html')
-    
-    data = request.get_json()['data']
-    user_data = {}
-    for i in data:
-        user_data[i['name']] = str(i['value'])
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM user_account WHERE username = %s AND password = %s", (user_data['username'], user_data['password']))
-    user = cur.fetchone()
-    c_user = cur.execute("SELECT * FROM user_account WHERE username = %s AND password = %s AND role = 'customer'", (user_data['username'], user_data['password']))
-    print(user)
-    if not user:
-        return jsonify({"success":False, "message":"Invalid username or password"})
-    if not c_user:
-        return jsonify({"success":False, "message":"You are not a buyer"})
-    session['buyer_id'] = user[0]
-    return jsonify({"success":True, "message":"Login successful", "category":user[3]})
 
 @app.route('/signup',methods=['GET','POST'])
 def signup():
@@ -103,7 +104,7 @@ def signup():
 def profile():
     # user_id = session.get('user_id')
     if 'farmer_id' not in session.keys() and 'buyer_id' not in session.keys():
-        return redirect(url_for('farmer_login'))
+        return redirect(url_for('login'))
     
     farmer_id = session.get('farmer_id')
     buyer_id = session.get('buyer_id')
@@ -146,8 +147,7 @@ def profile():
             'email': user[4],
         }
         profile_type = "Buyer"
-    print(user)
-    
+
     return render_template('profile.html', user=user, farmer_id=farmer_id, buyer_id=buyer_id, profile_type=profile_type, products=products)
 
 @app.route('/signup_farmer',methods=["GET","POST"])
@@ -311,7 +311,7 @@ def farmer():
 @app.route("/buyer", methods=['GET', 'POST'])
 def buyer():
     if 'buyer_id' not in session.keys():
-        return redirect(url_for('farmer_login'))
+        return redirect(url_for('login'))
     buyer_id = session.get('buyer_id')
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM buyer WHERE UserAccountID = %s", (buyer_id,))
@@ -327,7 +327,7 @@ def buyer():
 @app.route("/buyer/update", methods=['GET', 'POST'])
 def buyer_update():
     if 'buyer_id' not in session.keys():
-        return redirect(url_for('buyer_login'))
+        return redirect(url_for('login'))
     if request.method != 'POST':
         return redirect(url_for('index'))
     buyer_id = session.get('buyer_id')
@@ -353,7 +353,7 @@ def file_upload():
 @app.route("/product_delete", methods=['POST'])
 def product_delete():
     if 'farmer_id' not in session.keys():
-        return redirect(url_for('farmer_login'))
+        return redirect(url_for('login'))
     product_id = request.args.get('product_id')
     cur = mysql.connection.cursor()
     cur.execute("DELETE FROM product WHERE id = %s", (product_id,))
@@ -364,7 +364,7 @@ def product_delete():
 def product_update():
     print(session.keys())
     if 'farmer_id' not in session.keys():
-        return redirect(url_for('farmer_login'))
+        return redirect(url_for('login'))
     if request.method != 'POST':
         product_id = request.args.get('product_id')
         print(product_id)
@@ -411,7 +411,7 @@ def product_add():
         return jsonify({"success":True, "message":"Product added successfully"})
 
     if 'farmer_id' not in session.keys():
-        return redirect(url_for('farmer_login'))
+        return redirect(url_for('login'))
     farmer_id = session.get('farmer_id')
     return render_template('farmer/product_add.html', farmer_id=farmer_id)
 
@@ -421,7 +421,7 @@ def checkout():
         return redirect(url_for('index'))
     
     if 'buyer_id' not in session.keys():
-        return redirect(url_for('buyer_login'))
+        return redirect(url_for('login'))
     
     data = request.get_json()['data']
     print(data)
@@ -431,7 +431,7 @@ def checkout():
 def invoice():
 
     if 'buyer_id' not in session.keys() and 'farmer_id' not in session.keys():
-        return redirect(url_for('farmer_login'))
+        return redirect(url_for('login'))
     
     data = session.get("checkout_data")
     date = datetime.now().strftime("%d/%m/%Y")
@@ -447,7 +447,7 @@ def pinvoice():
     if request.method != 'POST':
         return redirect(url_for('index'))
     if 'buyer_id' not in session.keys() and 'farmer_id' not in session.keys():
-        return redirect(url_for('farmer_login'))
+        return redirect(url_for('login'))
     data = request.get_json()['data']
     session["checkout_data"] = data
     return {
@@ -458,8 +458,27 @@ def pinvoice():
 def farmer_chat(): 
     farmer_id = session.get('farmer_id')
     if not farmer_id:
-        return redirect(url_for('farmer_login'))
+        return redirect(url_for('login'))
     
+    notification_id = request.args.get('notification_id')
+    
+    open_chat = False
+    n_product_id = None
+    prod_farmer_id = None
+    if notification_id:
+        print("open chat")
+        print(notification_id)
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE chat_notification SET seen = %s WHERE id = %s", (1, notification_id))
+        mysql.connection.commit()
+        cur.execute("""SELECT ch.`product_id`, c.`sender_id` FROM chat_notification c
+                    JOIN chat ch ON c.`chat_id` = ch.`id`
+                    WHERE c.`id` = %s""", (notification_id,))
+        chat_data = cur.fetchone()
+        n_product_id = chat_data[0]
+        prod_farmer_id = chat_data[1]
+        open_chat = True
+
     query = f"""
         SELECT c.product_id,p.name,c.`sender_type`,c.`sender_id`,c.`receiver_id`,ua.username AS sender_name,
         uc.username AS reciever_name, c.`message`
@@ -502,9 +521,9 @@ def farmer_chat():
     # make a list of chats based on product and customers
     print(json.dumps(chat_data, indent=4))
 
-    # print(chats)
+    print(chats)
     
-    return render_template('chat.html', chats=chat_data, range=range, len=len, farmer_id=farmer_id)
+    return render_template('chat.html', chats=chat_data, range=range, len=len, farmer_id=farmer_id, open_chat=open_chat, product_id=n_product_id, prod_farmer_id=prod_farmer_id)
 
 
 @app.route("/farmer/get_full_weather", methods=["GET", "POST"])
@@ -512,10 +531,10 @@ def full_weather():
 
     farmer_id = session.get('farmer_id')
     if not farmer_id:
-        return redirect(url_for('farmer_login'))    
+        return redirect(url_for('login'))    
 
     if request.method != 'POST':
-        return render_template("farmer/get_weather.html")
+        return render_template("farmer/get_weather.html", farmer_id=farmer_id)
 
     res_date = request.args.get("date")
     print(res_date)

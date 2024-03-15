@@ -26,6 +26,9 @@
     {% if buyer_id %}
         <input type="hidden" id="buyer_id" value="{{buyer_id}}">
     {% endif %}
+    {% if farmer_id %}
+        <input type="hidden" id="farmer_id" value="{{farmer_id}}">
+    {% endif %}
     <div class="mobile-navbar">
         <div class="menu-toggle" id="mobile-menu">
             <span></span>
@@ -38,13 +41,16 @@
             <a href="#">About Us</a>
             <a href="#">Contact</a>
             <div class="profile-item">
-            <a href="{{ url_for('farmer_login') }}"><i class="fas fa-store"></i>
-                <span>Farmer Login</span></a>
-            <a href="{{ url_for('buyer_login') }}"><i class="fas fa-store"></i>
-                    <span>Buyer Login</span></a>
-            <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
-                        <span>Want to become a Farmer or Customer?</span></a>
-                </div>
+                <a href="{{ url_for('login') }}"><i class="fas fa-store"></i>
+                    <span>Login</span>
+                </a>
+                <!-- <a href="{# url_for('buyer_login') #}"><i class="fas fa-store"></i>
+                    <span>Buyer Login</span>
+                </a> -->
+                <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
+                    <span>Want to become a Farmer or Customer?</span>
+                </a>
+            </div>
         </div>
     </div>
     <div class="navbar">
@@ -68,8 +74,9 @@
                             <li class="ffs-content-item ffs-content-item-1">
                                 <a class="ffs-person" href="#">
                                     <div class="ffs-person-txt">
-                                        <div class="ffs-person-name">{{chat['farmer_name']}}</div>
+                                        <div class="ffs-person-name">{{chat['name']}}</div>
                                         <div class="ffs-person-duty">{{chat['product_name']}}</div>
+                                        <input type="hidden" class="buyer_id" value="{{ chat['buyer_id'] }}">
                                         <input type="hidden" class="farmer_id" value="{{ chat['farmer_id'] }}">
                                         <input type="hidden" class="product_id" value="{{ chat['product_id'] }}">
                                         <input type="hidden" class="notification_id" value="{{ chat['notification_id'] }}">
@@ -114,13 +121,13 @@
                 </div>
             {% else %}
                 <div class="profile-item">
-                    <a href="{{ url_for('farmer_login') }}"><i class="fas fa-store"></i>
-                    <span>Farmer Login</span></a>
+                    <a href="{{ url_for('login') }}"><i class="fas fa-store"></i>
+                    <span>Login</span></a>
                 </div>
-                <div class="profile-item">
-                    <a href="{{ url_for('buyer_login') }}"><i class="fas fa-store"></i>
+                <!-- <div class="profile-item">
+                    <a href="{# url_for('buyer_login') #}"><i class="fas fa-store"></i>
                     <span>Buyer Login</span></a>
-                </div>
+                </div> -->
                 <div class="profile-item">
                     <a href="{{ url_for('signup') }}"><i class="fas fa-store"></i>
                     <span>Want to become a Farmer or Customer?</span></a>
