@@ -184,9 +184,9 @@ $("#signup_form #submit").click(async function(event) {
         console.log(response);
         if (response.data.success) {
             if(response.data.category == "farmer") {
-                window.location.href = "/farmer_login";
+                window.location.href = "/login";
             } else if (response.data.category == "customer") {
-                window.location.href = "/buyer_login";
+                window.location.href = "/login";
             }
         } else {
             alert(response.data.message);
