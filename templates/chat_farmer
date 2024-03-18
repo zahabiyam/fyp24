@@ -1,0 +1,6 @@
+{% extends "farmer_base.html" %}
+{% block farmer_base %}
+    <div class="container">
+   
+    </div>
+{% endblock %}

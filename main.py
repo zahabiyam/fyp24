@@ -559,6 +559,10 @@ def full_weather():
     return render_template("full_weather.html", weather=weather, aqi=aqi, units=units)
     
 
+@app.route("/chat_farmer", methods=['GET', 'POST'])
+def chat_farmer():
+    return render_template("chat_farmer.html")
+
 
 
 if __name__ == '__main__':
