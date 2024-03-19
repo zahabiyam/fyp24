@@ -1753,3 +1753,86 @@ body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide1 ul.ffs-content-list a.
   background: #EDF5F3;
   height: 37px;
 }
+
+.inbox {
+  display: flex;
+}
+
+.inbox .sender-column {
+  padding: 10px;
+  width: 20%;
+}
+.inbox .product-column {
+  padding: 10px;
+  width: 20%;
+}
+.inbox .chat-column {
+  padding: 10px;
+  width: 60%;
+}
+
+.inbox .sender-list,
+.inbox .product-list {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.inbox .sender,
+.inbox .product {
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.inbox .sender:last-child,
+.inbox .product:last-child {
+  border-bottom: none;
+}
+
+.inbox .chat-box {
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.inbox .receive-col .received {
+  background-color: #c7c7c7;
+  padding: 1em;
+  font-size: 0.8em;
+  width: fit-content;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.inbox .send-col{
+  float: right;
+}
+.inbox .send-col .sent {
+  background-color: #1A5D1A;
+  padding: 1em;
+  font-size: 0.8em;
+  width: fit-content;
+  border-radius: 5px;
+  float: none;
+  margin-bottom: 10px;
+}
+
+.inbox .input-area {
+  display: flex;
+  align-items: center;
+}
+
+.inbox .input-area input {
+  flex: 1;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.inbox .input-area button {
+  padding: 14px 50px;
+  background-color: #1A5D1A;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
