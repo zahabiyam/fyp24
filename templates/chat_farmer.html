@@ -1,39 +1,50 @@
 {% extends "farmer_base.html" %}
 {% block farmer_base %}
-<div class="inbox">
-    <div class="sender-column">
-        <h2>Senders</h2>
-        <div class="sender-list">
-            <div class="sender">John Doe</div>
-            <div class="sender">Jane Smith</div>
-            <!-- Add more senders -->
-        </div>
-    </div>
-    <div class="product-column">
-        <h2>Products</h2>
-        <div class="product-list">
-            <div class="product">Product ABC</div>
-            <div class="product">Product XYZ</div>
-            <!-- Add more products -->
-        </div>
-    </div>
-    <div class="chat-column">
-        <h2>Chat</h2>
-        <div class="chat-box">
-            <div class="receive-col">
-            <div class="received">Message from John Doe regarding Product ABC</div>
-            <div class="received">Message from John Doe regarding Product ABC</div>
+    <div class="inbox">
+        <div class="sender-column">
+            <h2>Senders</h2>
+            <div class="sender-list">
+                <!-- Loop through senders -->
+                {% for i, j in chats.items() %}
+                    <div class="sender">John Doe</div>
+                    <div class="sender">Jane Smith</div>
+                    <!-- Add more senders -->
+                {% endfor %}
             </div>
-            <div class="send-col">
-            <div class="sent">Reply: Thank you!</div>
-            <div class="sent">Reply: Thank you!</div>
-            </div>
-            <!-- Add more chat messages -->
         </div>
-        <div class="input-area">
-            <input type="text" placeholder="Type your message...">
-            <button>Send</button>
+        <div class="product-column">
+            <h2>Products</h2>
+            <div class="product-list">
+                <!-- Loop through products -->
+                {% for i, j in chats.items() %}
+                    <div class="product">{{ j.product_name }}</div>
+                    <!-- Add more products -->
+                {% endfor %}
+            </div>
+        </div>
+        <div class="chat-column">
+            <h2>Chat</h2>
+            <div class="chat-box">
+                <!-- Loop through chats -->
+                {% for i, j in chats.items() %}
+                    {%  for customer_id, chat_data in j.customer_chats.items() %}
+                        <div id="chat_id_{{i}}_{{ customer_id }}" class="tabcontent">
+                            <!-- Loop through messages -->
+                            {% for message in chat_data.messages %}
+                                {% if message.sender_type == "farmer" %}
+                                    <div class="sent">{{ message.message }}</div>
+                                {% else %}
+                                    <div class="received">{{ message.message }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="input-area">
+                <input type="text" placeholder="Type your message...">
+                <button>Send</button>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
