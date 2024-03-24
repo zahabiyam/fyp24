@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from flask_mysqldb import MySQL
+from flask_mail import Mail, Message
 
 
 app = Flask(__name__)
@@ -15,6 +16,16 @@ app.config['MYSQL_USER'] = 'admin'
 app.config['MYSQL_PASSWORD'] = 'Admin!123'
 app.config['MYSQL_DB'] = 'farmer_friend'
 app.config['MYSQL_PORT'] = 3307
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = "miss.zahabiya@gmail.com"
+app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+mail = Mail(app)
+
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))

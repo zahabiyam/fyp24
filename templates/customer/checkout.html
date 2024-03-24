@@ -9,6 +9,7 @@
                         {% for i in data %}
                             <div class="single-item">
                                 <h3>Product Details</h3>
+                                <input type="hidden" class="product_id" value="{{ i.product_id }}">
                                 <label for="product-name">Product Name:</label>
                                     <input type="text" class="product-name" name="product-name" value="{{ i.product_title }}" readonly>
                                 <label for="product-image">Product Image:</label>

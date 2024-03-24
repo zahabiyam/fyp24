@@ -5,21 +5,18 @@
             <h2>Senders</h2>
             <div class="sender-list">
                 <!-- Loop through senders -->
-                {% for i, j in chats.items() %}
                     <div class="sender">John Doe</div>
                     <div class="sender">Jane Smith</div>
                     <!-- Add more senders -->
-                {% endfor %}
             </div>
         </div>
         <div class="product-column">
             <h2>Products</h2>
             <div class="product-list">
                 <!-- Loop through products -->
-                {% for i, j in chats.items() %}
-                    <div class="product">{{ j.product_name }}</div>
+                    <div class="product">j.product_name</div>
                     <!-- Add more products -->
-                {% endfor %}
+                    
             </div>
         </div>
         <div class="chat-column">
@@ -32,6 +29,7 @@
                             <!-- Loop through messages -->
                             {% for message in chat_data.messages %}
                                 {% if message.sender_type == "farmer" %}
+                                
                                     <div class="sent">{{ message.message }}</div>
                                 {% else %}
                                     <div class="received">{{ message.message }}</div>

@@ -1601,12 +1601,12 @@ background-color: #155512;
   padding: 0.8em 2.8em;
 }
 
-.sent {
+/* .sent {
   background-color: #1a5d1a;
   color: #fff;
   padding: 0.8em 2.8em;
   float: right;
-}
+} */
 
 .chat-input {
   display: flex;
@@ -1806,7 +1806,9 @@ body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide1 ul.ffs-content-list a.
   margin-bottom: 10px;
 }
 .inbox .send-col{
-  float: right;
+  display: flex;
+  /* align-content: flex-end; */
+  justify-content: flex-end;
 }
 .inbox .send-col .sent {
   background-color: #1A5D1A;

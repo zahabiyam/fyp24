@@ -1,6 +1,6 @@
 import requests, json
 from flask import render_template, redirect, url_for, request, session, jsonify
-from config import app, mysql
+from config import app, mysql, mail, Message
 from datetime import datetime
 import random
 from weather_helpers import coordinates, getweather, getaqi,getWeatherDayWise
@@ -8,6 +8,26 @@ from weather_helpers import coordinates, getweather, getaqi,getWeatherDayWise
 ######### VIEW FUNCTIONS ##########
 
 to_reload = False
+
+
+@app.route("/test_email", methods=['GET', 'POST'])
+def test_email():
+    msg = Message("Hello", sender="mufaddalhatim53@gmail.com", recipients=["miss.zahabiya@gmail.com", "mufaddalhatim53@gmail.com"])
+    msg.body = "Hello Flask message sent from Flask-Mail 2 mail testing"
+    mail.send(msg)
+    return "Sent"
+
+
+def send_email(subject, body, recipients):
+    try:
+        msg = Message(subject, sender="miss.zahabiya@gmail.com", recipients=recipients)
+        msg.body = body
+        mail.send(msg)
+    except Exception as e:
+        print(e)
+        return "Failed"
+    return "Sent"
+
 
 @app.route('/',methods=['GET','POST'])
 def index():
@@ -425,22 +445,50 @@ def checkout():
     
     data = request.get_json()['data']
     print(data)
-    return render_template('buyer/checkout.html', data=data)
+    return render_template('customer/checkout.html', data=data)
 
 @app.route("/invoice", methods=['GET', 'POST'])
 def invoice():
 
-    if 'buyer_id' not in session.keys() and 'farmer_id' not in session.keys():
+    if 'buyer_id' not in session.keys():
         return redirect(url_for('login'))
     
     data = session.get("checkout_data")
     date = datetime.now().strftime("%d/%m/%Y")
     data['date'] = date
     data['invoice_number'] = "INV-"+ str(random.randint(10000, 99999))
+    cur = mysql.connection.cursor()
     for i in data['products']:
+        cur.execute("""
+            SELECT f.`NAME` FROM product p 
+            JOIN farmer f ON f.`UserAccountID` = p.`FarmerID`
+            WHERE p.`id`=%s
+        """, (i['product_id'],))
+        i['farmer_name'] = cur.fetchone()[0]
         i['product_price'], i['product_quantity'] = int(i['product_price']), int(i['product_quantity'])
-    print(data)
-    return render_template('buyer/invoice.html', data=data)
+    cur.execute("SELECT NAME, ContactEmail FROM buyer WHERE UserAccountID = %s", (session['buyer_id'],))
+    buyer_name, buyer_email = cur.fetchone()
+    print(buyer_name, buyer_email)
+    subject = "Invoice and Order Confirmation for your purchase"
+    body = f"Hello {buyer_name},\n\nThank you for your purchase. Your order has been confirmed.\n\n"
+    body += "Here is the invoice for your purchase:\n\n"
+    body += f"Date: {date}\n"
+    body += f"Invoice Number: {data['invoice_number']}\n\n"
+    body += "Products:\n"
+    total_amount = 0
+    for i in data['products']:
+        body += f"Product Name: {i['product_name']}\n"
+        body += f"Farmer Name: {i['farmer_name']}\n"
+        body += f"Price: {i['product_price']} Rs\n"
+        body += f"Quantity: {i['product_quantity']}\n"
+        body += f"Total: {i['product_price']*i['product_quantity']} Rs\n\n"
+        total_amount += i['product_price']*i['product_quantity']
+    body += f"Total Amount: {total_amount} Rs\n\n"
+    body += "Thank you for shopping with us. We hope to see you again soon.\n\n"
+    body += "Regards,\nFarmer Friend"
+    send_email(subject, body, [buyer_email])
+
+    return render_template('customer/invoice.html', data=data)
 
 @app.route("/pinvoice", methods=['GET', 'POST'])
 def pinvoice():

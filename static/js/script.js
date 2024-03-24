@@ -121,14 +121,11 @@ $(document).on("click", "#customer_checkout #ch_submit", function() {
     for(let i=0; i<t_products.length; i++) {
         var temp = {}
         temp["product_name"] = t_products[i].querySelector(".product-name").value;
-        // temp["product_price"] = t_products[i].querySelector(".amount").value;
-        //'Rs. 150/- per kg extract numbers from this string regex
         var price = t_products[i].querySelector(".amount").value;
         price = price.match(/\d+/g);
-        temp["product_price"] = price[0]; 
-        // temp["product_price"] = 
+        temp["product_price"] = price[0];
         temp["product_quantity"] = t_products[i].querySelector(".quantity").value;
-        
+        temp["product_id"] = t_products[i].querySelector(".product_id").value;
         products.push(temp);
     }
     
