@@ -20,7 +20,7 @@ app.config['MYSQL_PORT'] = 3307
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = "miss.zahabiya@gmail.com"
-app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_PASSWORD'] = 'nywy zbeg wcgh upnc'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 

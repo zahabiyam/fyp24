@@ -38,7 +38,7 @@ body {
 .container {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 50px 0;
     position: relative;
     z-index: 1;
 }
@@ -1613,9 +1613,9 @@ background-color: #155512;
   align-items: center;
   padding: 1rem;
   border-top: 1px solid #ccc;
-  position: relative;
+  position: fixed;
   bottom: 0px;
-  width: 90%;
+  width: 50%;
 }
 
 .chat-input input {
@@ -1818,6 +1818,7 @@ body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide1 ul.ffs-content-list a.
   border-radius: 5px;
   float: none;
   margin-bottom: 10px;
+  color: #fff;
 }
 
 .inbox .input-area {
@@ -1859,4 +1860,11 @@ body .ffs-chat-panel .ffs-panel-content .ffs-panel-slide1 ul.ffs-content-list a.
 
 .weather_container .container b {
   color: #555;
+}
+
+.inbox .active {
+  background: #1a5d1a;
+  padding: 0.6em !important;
+  color: #fff;
+  border-radius: 5px;
 }
